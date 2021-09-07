@@ -1,0 +1,6 @@
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\bin\Debug\TextGenerator.dll
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\bin\Debug\TextGenerator.pdb
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\obj\Debug\TextGenerator.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\obj\Debug\TextGenerator.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\obj\Debug\TextGenerator.dll
+C:\Users\Admin\Desktop\нейросетка\TextGenerator\TextGenerator\obj\Debug\TextGenerator.pdb
