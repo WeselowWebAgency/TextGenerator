@@ -10,12 +10,12 @@ namespace TextGenerator
 {
     public class PythonNetWorker
     {
-        private string _nameExePython;
+        private string _namePythonDll;
         private string _pathToPythonDirictory;
-        public PythonNetWorker(string pathToPythonDirectory,string nameExePython)
+        public PythonNetWorker(string pathToPythonDirectory,string namePythonDll)
         {
-            Runtime.PythonDLL = pathToPythonDirectory + nameExePython;
-            _nameExePython = nameExePython;
+            Runtime.PythonDLL = pathToPythonDirectory + namePythonDll;
+            _namePythonDll = namePythonDll;
             _pathToPythonDirictory = pathToPythonDirectory;
         }
 
@@ -65,7 +65,7 @@ namespace TextGenerator
         }
 
 
-        public string GeneteRusText(string text) {
+        public string GenerateRusText(string text) {
             SetPaths(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2"); // сюда нужно передать путь до папки со скриптом
             using (Py.GIL()) 
             {
