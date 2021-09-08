@@ -44,7 +44,7 @@ namespace TextGenerator
             }
         }
 
-        private void SetPaths(string pathPythonScript) {
+        private void SetPaths(string pathPythonFolder) {
             // Setup all paths before initializing Python engine
             string pathToPython = _pathToPythonDirictory;
             string path = pathToPython + ";" +
@@ -54,7 +54,7 @@ namespace TextGenerator
 
             var lib = new[]
             {
-                pathPythonScript,
+                pathPythonFolder,
                 Path.Combine(pathToPython, "Lib"),
                 Path.Combine(pathToPython, "DLLs")
             };
@@ -72,6 +72,7 @@ namespace TextGenerator
                 try
                 {
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
+                    
                     dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
                     return result;
 
