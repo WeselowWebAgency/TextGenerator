@@ -37,7 +37,7 @@ namespace TextGenerator
             string pathFileRezult = project.Variables["pathFileRezult"].Value;
 
             string rez = "";
-            PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
+            Worker2 worker2 = new Worker2(@"C:\Python37\", "python37.dll");
             worker2.GeneteRusText(text);
 
 

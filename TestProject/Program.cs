@@ -14,7 +14,7 @@ namespace TestProject
         static void Main(string[] args)
         {
             string text = File.ReadAllText(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TestProject\2.txt");
-            PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
+            Worker2 worker2 = new Worker2(@"C:\Python37\python37.dll","");
             worker2.GeneteRusText(text);
             //worker2.Test2();
             
