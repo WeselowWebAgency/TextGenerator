@@ -71,12 +71,10 @@ namespace TextGenerator
             {
                 try
                 {
-                    
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
                     dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
-
                     return result;
-                    
+
                 }
                 catch (PythonException error)
                 {
