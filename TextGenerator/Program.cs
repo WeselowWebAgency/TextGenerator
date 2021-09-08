@@ -35,19 +35,20 @@ namespace TextGenerator
             
             string language = project.Variables["language"].Value;
             string pathFileRezult = project.Variables["pathFileRezult"].Value;
-           
-            Worker worker = new Worker();
-            string rez = "";
 
-            
+            string rez = "";
+            PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
+            worker2.GeneteRusText(text);
+
+
             switch (language) {
                 case "rus":
-                    rez = worker.GenerateRusText(text);
+                    rez = worker2.GeneteRusText(text);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 
                 case "eng":
-                    rez = worker.GenerateEngText(text);
+                    rez = worker2.GenerateEngText(text);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:
