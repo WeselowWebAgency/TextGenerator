@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace TextGenerator
 {
-    public class Worker2
+    public class PythonNetWorker
     {
         private string _nameExePython;
         private string _pathToPythonDirictory;
-        public Worker2(string pathToPythonDirectory,string nameExePython)
+        public PythonNetWorker(string pathToPythonDirectory,string nameExePython)
         {
-            Runtime.PythonDLL = pathToPythonDirectory;
+            Runtime.PythonDLL = pathToPythonDirectory + nameExePython;
             _nameExePython = nameExePython;
             _pathToPythonDirictory = pathToPythonDirectory;
         }
@@ -31,12 +31,7 @@ namespace TextGenerator
                 {
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-
-                    
-
-
-                    dynamic results = sampleModule.text_generator(text);
-                   
+                    dynamic results = sampleModule.text_generator(text); // вызов метода из скрипта
                     return results;
                 }
                 catch (PythonException error)
@@ -72,14 +67,13 @@ namespace TextGenerator
 
         public string GeneteRusText(string text) {
             SetPaths(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2"); // сюда нужно передать путь до папки со скриптом
-            
             using (Py.GIL()) 
             {
                 try
                 {
                     
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
-                    dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); 
+                    dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
 
                     return result;
                     
