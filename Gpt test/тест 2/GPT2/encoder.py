@@ -104,10 +104,12 @@ class Encoder:
         text = bytearray([self.byte_decoder[c] for c in text]).decode('utf-8', errors=self.errors)
         return text
 
-def get_encoder():
-    with open("C:\\Users\\Admin\\Desktop\\нейросетка\\TextGenerator2\\Gpt test\\тест 2\\GPT2\\encoder.json", 'r') as f:
+def get_encoder(encoderPath,vocabPath):
+    #"C:\\Users\\Admin\\Desktop\\нейросетка\\TextGenerator2\\Gpt test\\тест 2\\GPT2\\encoder.json"
+    with open(encoderPath, 'r') as f:
         encoder = json.load(f)
-    with open("C:\\Users\\Admin\\Desktop\\нейросетка\\TextGenerator2\\Gpt test\\тест 2\\GPT2\\vocab.bpe", 'r', encoding="utf-8") as f:
+        #"C:\\Users\\Admin\\Desktop\\нейросетка\\TextGenerator2\\Gpt test\\тест 2\\GPT2\\vocab.bpe"
+    with open(vocabPath, 'r', encoding="utf-8") as f:
         bpe_data = f.read()
     bpe_merges = [tuple(merge_str.split()) for merge_str in bpe_data.split('\n')[1:-1]]
     return Encoder(

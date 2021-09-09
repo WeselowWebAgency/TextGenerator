@@ -12,6 +12,7 @@ namespace TextGenerator
     {
         private string _namePythonDll;
         private string _pathToPythonDirictory;
+        
         public PythonNetWorker(string pathToPythonDirectory,string namePythonDll)
         {
             Runtime.PythonDLL = pathToPythonDirectory + namePythonDll;
@@ -20,7 +21,7 @@ namespace TextGenerator
         }
 
 
-        public string GenerateEngText(string text)
+        public string GenerateEngText(string text, string directoryScript)
         {
 
             SetPaths(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2");
@@ -31,14 +32,14 @@ namespace TextGenerator
                 {
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-                    dynamic results = sampleModule.text_generator(text); // вызов метода из скрипта
+                    dynamic results = sampleModule.text_generator(text, directoryScript); // вызов метода из скрипта
                     return results;
                 }
-                catch (PythonException error)
+                catch (Exception error)
                 {
                     // Communicate errors with exceptions from within python script -
                     // this works very nice with pythonnet.
-                    Console.WriteLine("Error occured: ", error);
+                    Console.WriteLine("Error occured: ", error.Message);
                     return null;
                 }
             }

@@ -24,20 +24,28 @@ from GPT2.encoder import get_encoder
 
 
 
+baseDirectory = ""
 
 
 
 
 
-def text_generator(text):
-    state_dict = torch.load("C:\\Users\\Admin\\Desktop\\нейросетка\\TextGenerator2\\Gpt test\\тест 2\\gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
+
+
+
+def text_generator(text, baseDirectory):
+    
+    state_dict = torch.load(baseDirectory + "gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
     parser = argparse.ArgumentParser()
+
     parser.add_argument("--text", type=str, required=False,default=text)
     parser.add_argument("--quiet", type=bool, default=False)
     parser.add_argument("--nsamples", type=int, default=1)
     parser.add_argument('--unconditional', action='store_true', help='If true, unconditional generation.')
     parser.add_argument("--batch_size", type=int, default=-1)
+    # default=-1
     parser.add_argument("--length", type=int, default=-1)
+    
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_k", type=int, default=40)
     args = parser.parse_args()
@@ -57,7 +65,7 @@ def text_generator(text):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load Model
-    enc = get_encoder()
+    enc = get_encoder(baseDirectory + "GPT2\\encoder.json",baseDirectory + "GPT2\\vocab.bpe")
     config = GPT2Config()
     model = GPT2LMHeadModel(config)
     model = load_weight(model, state_dict)
@@ -91,11 +99,11 @@ def text_generator(text):
             print(text2)
             return text2
 def Get_state_dict():
-    state_dict = torch.load('C:\\Users\\Admin\\Desktop\\нейросетка\\Gpt test\\тест 2\\gpt2-pytorch_model.bin', map_location='cpu' if not torch.cuda.is_available() else None)
+    state_dict = torch.load(baseDirectory + "\\Gpt test\\тест 2\\gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
     return state_dict
 
 if __name__ == '__main__':
-    if os.path.exists('C:\\Users\\Admin\\Desktop\\нейросетка\\Gpt test\\тест 2\\gpt2-pytorch_model.bin'):
+    if os.path.exists(baseDirectory +"\\Gpt test\\тест 2\\gpt2-pytorch_model.bin"):
         
         Text = '''It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.'''
         text_generator(Text)

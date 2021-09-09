@@ -46,7 +46,7 @@ namespace TextGenerator
                     break;
                 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text);
+                    rez = PythonNet.GenerateEngText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2");
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:
