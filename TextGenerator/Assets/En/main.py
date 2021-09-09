@@ -1,7 +1,5 @@
-
 import os
 import sys
-
 from typing import Text
 import torch
 import random
@@ -10,28 +8,13 @@ import numpy as np
 import clr
 clr.AddReference("System.Windows.Forms")
 
-
-
-
-
-
 from GPT2.model import (GPT2LMHeadModel) 
 from GPT2.utils import load_weight
 from GPT2.config import GPT2Config
 from GPT2.sample import sample_sequence
 from GPT2.encoder import get_encoder
 
-
-
-
 baseDirectory = ""
-
-
-
-
-
-
-
 
 def text_generator(text, baseDirectory,length = -1 ,temperature = 0.7,top_k = 40, nsamples = 1  ):
     

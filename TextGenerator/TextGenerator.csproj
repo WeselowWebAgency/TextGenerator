@@ -89,10 +89,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\En\encoder.json" />
+    <None Include="Assets\En\GPT2\config.n_ctx" />
+    <None Include="Assets\En\GPT2\encoder.json" />
+    <None Include="Assets\En\GPT2\vocab.bpe" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Assets\En\GPT2\config.py" />
+    <Content Include="Assets\En\GPT2\encoder.py" />
+    <Content Include="Assets\En\GPT2\model.py" />
+    <Content Include="Assets\En\GPT2\sample.py" />
+    <Content Include="Assets\En\GPT2\utils.py" />
+    <Content Include="Assets\En\GPT2\__init__.py.txt" />
     <Content Include="Assets\En\main.py" />
     <Content Include="Assets\En\requirements.txt" />
     <Content Include="Assets\Ru\generateModelParams.py" />
