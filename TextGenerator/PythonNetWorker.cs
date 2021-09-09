@@ -11,13 +11,13 @@ namespace TextGenerator
     public class PythonNetWorker
     {
         private string _namePythonDll;
-        private string _pathToPythonDirictory;
+        private string _pathToPythonDirectory;
         
         public PythonNetWorker(string pathToPythonDirectory,string namePythonDll)
         {
             Runtime.PythonDLL = pathToPythonDirectory + namePythonDll;
             _namePythonDll = namePythonDll;
-            _pathToPythonDirictory = pathToPythonDirectory;
+            _pathToPythonDirectory = pathToPythonDirectory;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace TextGenerator
 
         private void SetPaths(string pathPythonFolder) {
             // Setup all paths before initializing Python engine
-            string pathToPython = _pathToPythonDirictory;
+            string pathToPython = _pathToPythonDirectory;
             string path = pathToPython + ";" +
                           Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
             Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
