@@ -36,17 +36,21 @@ namespace TextGenerator
             string language = project.Variables["language"].Value;
             string pathFileRezult = project.Variables["pathFileRezult"].Value;
 
+            
+            string rugptpPath = project.Variables["RugptPath"].Value;
+            string generateEngScriptPath = project.Variables["EngScriptPath"].Value;
+
             string rez = "";
             PythonNetWorker PythonNet = new PythonNetWorker(@"C:\Python37\", "python37.dll");
 
             switch (language) {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2");
+                    rez = PythonNet.GenerateRusText(text, rugptpPath);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2\");
+                    rez = PythonNet.GenerateEngText(text, generateEngScriptPath);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:

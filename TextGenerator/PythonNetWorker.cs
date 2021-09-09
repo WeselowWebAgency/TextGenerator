@@ -83,8 +83,6 @@ namespace TextGenerator
                 {
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
                     dynamic setParams = sampleModule.SetParams(/*length =*/ 100, /*temperature =*/ 1.0, /*k = */  10, /*p*/  0.9, /*repetition_penalty*/  1.0, /*num_return_sequences*/  1); // вызов метода из скрипта
-
-
                     dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
                     return result;
 
