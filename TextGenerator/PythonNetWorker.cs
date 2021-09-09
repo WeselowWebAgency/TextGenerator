@@ -20,11 +20,15 @@ namespace TextGenerator
             _pathToPythonDirictory = pathToPythonDirectory;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="directoryScript"> сюда нужно передать путь до папки в которой хранится скрипт</param>
+        /// <returns></returns>
         public string GenerateEngText(string text, string directoryScript)
         {
-
-            SetPaths(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2");
+            SetPaths(directoryScript);
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
             {
@@ -32,7 +36,7 @@ namespace TextGenerator
                 {
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-                    dynamic results = sampleModule.text_generator(text, directoryScript); // вызов метода из скрипта
+                    dynamic results = sampleModule.text_generator(text, directoryScript, -1, 0.7,  40,  1); // вызов метода из скрипта
                     return results;
                 }
                 catch (Exception error)
@@ -65,15 +69,22 @@ namespace TextGenerator
 
         }
 
-
-        public string GenerateRusText(string text) {
-            SetPaths(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2"); // сюда нужно передать путь до папки со скриптом
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="pathPythonFolder"> сюда нужно передать путь до папки в которой хранится скрипт</param>
+        /// <returns></returns>
+        public string GenerateRusText(string text, string pathPythonFolder) {
+            SetPaths(pathPythonFolder); // сюда нужно передать путь до папки со скриптом
             using (Py.GIL()) 
             {
                 try
                 {
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
-                    
+                    dynamic setParams = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
+
+
                     dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
                     return result;
 

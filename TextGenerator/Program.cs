@@ -41,12 +41,12 @@ namespace TextGenerator
 
             switch (language) {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text);
+                    rez = PythonNet.GenerateRusText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2");
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2");
+                    rez = PythonNet.GenerateEngText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2\");
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:

@@ -33,21 +33,22 @@ baseDirectory = ""
 
 
 
-def text_generator(text, baseDirectory):
+def text_generator(text, baseDirectory,length = -1 ,temperature = 0.7,top_k = 40, nsamples = 1  ):
     
     state_dict = torch.load(baseDirectory + "gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--text", type=str, required=False,default=text)
     parser.add_argument("--quiet", type=bool, default=False)
-    parser.add_argument("--nsamples", type=int, default=1)
-    parser.add_argument('--unconditional', action='store_true', help='If true, unconditional generation.')
-    parser.add_argument("--batch_size", type=int, default=-1)
-    # default=-1
-    parser.add_argument("--length", type=int, default=-1)
     
-    parser.add_argument("--temperature", type=float, default=0.7)
-    parser.add_argument("--top_k", type=int, default=40)
+    parser.add_argument("--nsamples", type=int, default=nsamples)
+    parser.add_argument('--unconditional', action='store_true', help='If true, unconditional generation.')
+    
+    parser.add_argument("--batch_size", type=int, default=-1)
+    parser.add_argument("--length", type=int, default=length)
+    parser.add_argument("--temperature", type=float, default=temperature)
+    parser.add_argument("--top_k", type=int, default=top_k)
+    
     args = parser.parse_args()
 
     #if args.quiet is False:
@@ -87,7 +88,9 @@ def text_generator(text, baseDirectory):
             context=context_tokens  if not  args.unconditional else None,
             start_token=enc.encoder['<|endoftext|>'] if args.unconditional else None,
             batch_size=args.batch_size,
-            temperature=args.temperature, top_k=args.top_k, device=device
+            temperature=args.temperature, 
+            top_k=args.top_k, 
+            device=device
         )
         out = out[:, len(context_tokens):].tolist()
         for i in range(args.batch_size):

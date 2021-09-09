@@ -52,6 +52,10 @@ import spacy
 import xx_ent_wiki_sm
 from deeppavlov import build_model, configs
 
+from generateModelParams  import GenerateModelParams
+
+
+
 morph = pymorphy2.MorphAnalyzer()
 
 nlp = xx_ent_wiki_sm.load()
@@ -95,6 +99,15 @@ def join_words_in_or_pattern(words):
 RU_PRONOUNS = re.compile(join_words_in_or_pattern(russian_restricted_pronouns), re.IGNORECASE)
 
 
+
+
+def SetParams(length=100, temperature=1.0, k=10, p=0.9, repetition_penalty=1.0,num_return_sequences=1):
+        global params
+        params = GenerateModelParams(length, temperature, k, p, repetition_penalty,num_return_sequences)       
+        print(params)
+
+
+
 def generate_rugpt3large(prompt_text, return_only_predicted=False,
                          till_new_string=True, generate_only_one_sent=True, 
                          length=100, temperature=1.0, k=10, p=0.9, repetition_penalty=1.0,
@@ -109,15 +122,28 @@ def generate_rugpt3large(prompt_text, return_only_predicted=False,
 
     encoded_prompt = encoded_prompt.to(device)
 
+#output_sequences = model.generate(
+                #input_ids=encoded_prompt,
+                #max_length=length + len(encoded_prompt[0]),
+                #temperature=temperature,
+                #top_k=k,
+                #top_p=p,
+                #repetition_penalty=repetition_penalty,
+                #do_sample=True,
+                #num_return_sequences=num_return_sequences,
+            #)
+    
+    
+    
     output_sequences = model.generate(
                 input_ids=encoded_prompt,
-                max_length=length + len(encoded_prompt[0]),
-                temperature=temperature,
-                top_k=k,
-                top_p=p,
-                repetition_penalty=repetition_penalty,
-                do_sample=True,
-                num_return_sequences=num_return_sequences,
+                max_length=params.max_length + len(encoded_prompt[0]),
+                temperature=params.temperature,
+                top_k=params.top_k,
+                top_p=params.top_p,
+                repetition_penalty=params.repetition_penalty,
+                do_sample=params.do_sample,
+                num_return_sequences=params.num_return_sequences,
             )
     
     if len(output_sequences.shape) > 2:
@@ -325,14 +351,17 @@ text = """Многие люди даже не подозревают о том, 
 В 1994 году большое землетрясение ударило близ Лос-Анджелеса, убив 57 человек, и поранив более 5 000. Материальный урон достиг невероятных 20 миллиардов долларов. Такие землетрясения заставляют нас задуматься. Насколько твердая земля под нашими ногами? Что вообще значит понятие твердости?
 Каменноугольный пек кажется твердым, но это не так. На самом деле он является очень вязкой жидкостью, т.е. он жидкий. Вязкость - это мера сопротивления растеканию. Оливковое масло примерно в 100 раз вязче воды, а мед в 100 раз вязче масла. Вязкость пека больше вязкости воды в 230 миллиардов раз. В Кливлендском университете над пеком проводится самый продолжительный в мире эксперимент. В 1927 году пек был помещен в воронку. За 90 лет из нее упало всего 9 капель. Никто не присутствовал при падении капли. В 1988 году хранитель эксперимента Джон Мейнстон был близок к тому, чтобы увидеть как падает капля. Он вышел из комнаты, чтобы налить себе чаю и пропустил заветный момент. Вы можете наблюдать за этим экспериментом онлайн, но так как последняя капля упала в 2014 году, то вряд ли Вам удастся в ближайшие годы увидеть заветное падение."""
 
+
+
+
 def GetArgs():
     parser = argparse.ArgumentParser()
     parser.add_argument("--text", type=str, required=True)
     args = parser.parse_args()
     return args
 
-
-rewritten_text = paraphrase_and_expand_text(GetArgs().text, paraphrase=True, expand=True)
+SetParams(length=100, temperature=1.0, k=10, p=0.9, repetition_penalty=1.0,num_return_sequences=1)
+rewritten_text = paraphrase_and_expand_text(text, paraphrase=True, expand=True)
 os.system('CLS')
 print(rewritten_text)    
 
