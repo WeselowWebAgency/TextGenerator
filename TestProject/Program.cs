@@ -13,9 +13,9 @@ namespace TestProject
     {
         static void Main(string[] args)
         {
-            string text = File.ReadAllText(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TestProject\1.txt");
+            string text = File.ReadAllText(@"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TestProject\2.txt");
             PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
-            string rez = worker2.GenerateEngText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\Gpt test\тест 2\");
+            string rez = worker2.GenerateRusText(text, @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\");
             
             //worker2.Test2();
 
