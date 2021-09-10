@@ -171,9 +171,7 @@ namespace TextGenerator
         private void DownloadEngScripts(string path)
         {
             Dictionary<string, string> engScripts = new Dictionary<string, string>();
-            
             engScripts.Add("main.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/main.py");
-
             foreach (var item in engScripts) DownloadScript(item.Key, item.Value, path);
         }
 
