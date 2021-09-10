@@ -94,6 +94,7 @@
     <None Include="Assets\En\GPT2\encoder.json" />
     <None Include="Assets\En\GPT2\vocab.bpe" />
     <None Include="packages.config" />
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
