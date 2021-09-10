@@ -51,11 +51,11 @@ namespace TextGenerator
         public void DownloadPackages()
         {
 
-            //if ( SaveLog != null)  SaveLog("проверка обновления pip");
+            SaveLog("проверка обновления pip");
             string WorkingDirectory = $"{_pythonPath}\\Scripts";
             string argument = "install --upgrade pip command";
             string rezultProcess = StartProccess(argument, WorkingDirectory);
-            //if ( SaveLog != null)  SaveLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
+            SaveLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
 
 
             var packages = File.ReadAllLines(path + @"TextGenerator\requirements.txt");
@@ -152,10 +152,8 @@ namespace TextGenerator
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
-
-            //requirements
             DownloadScript("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
-
+            
 
 
         }
@@ -197,7 +195,6 @@ namespace TextGenerator
             {
                 string downloadText = _webClient.DownloadString(url);
                 File.WriteAllText(savePath + fileName, downloadText);
-
             }
         }
     }
