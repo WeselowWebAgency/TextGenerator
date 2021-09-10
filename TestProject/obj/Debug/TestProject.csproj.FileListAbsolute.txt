@@ -80,3 +80,7 @@ C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.CopyComplete
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.exe
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.pdb
+C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.AssemblyReference.cache
+C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
+C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.exe
+C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.pdb
