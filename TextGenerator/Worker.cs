@@ -17,7 +17,7 @@ namespace TextGenerator
 
         private WebClient _webClient;
         private string path;
-        //private IZennoPosterProjectModel _project;
+        private IZennoPosterProjectModel _project;
         private string _pythonPath;
         public Worker(string pythonPath) {
             _webClient = new WebClient();
@@ -25,9 +25,9 @@ namespace TextGenerator
             _pythonPath = pythonPath;
         }
 
-        //public Worker(IZennoPosterProjectModel project, string pythonPath) {
-        //    _project = project;
-        //}
+        public Worker(IZennoPosterProjectModel project, string pythonPath) {
+            _project = project;
+        }
         
         private string StartProcess(ProcessStartInfo processInfo,string text) {
             string result;
@@ -49,37 +49,37 @@ namespace TextGenerator
 
         public void DownloadPackages() {
 
-            //if (_project != null) _project.SendInfoToLog("проверка обновления pip");
+            if (_project != null) _project.SendInfoToLog("проверка обновления pip");
             string WorkingDirectory = @"C:\Python37\Scripts";
             string argument = "install --upgrade pip command";
             string rezultProcess = StartProccess(argument, WorkingDirectory);
-            //if (_project != null) _project.SendInfoToLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
+            if (_project != null) _project.SendInfoToLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
 
 
             var packages = File.ReadAllLines(path + @"TextGenerator\requirements.txt");
             
             for (int i = 0; i < packages.Length; i++) {
-                //if (_project != null) _project.SendInfoToLog($"Проверка зависимости  {packages[i]}") ;
+                if (_project != null) _project.SendInfoToLog($"Проверка зависимости  {packages[i]}") ;
                 argument = $"install {packages[i]}";
                 rezultProcess = StartProccess(argument, null);
-                //if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  {packages[i]}: {rezultProcess}");
+                if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  {packages[i]}: {rezultProcess}");
             }
 
-           // if (_project != null) _project.SendInfoToLog($"Проверка зависимости  xx_ent_wiki_sm ");
+            if (_project != null) _project.SendInfoToLog($"Проверка зависимости  xx_ent_wiki_sm ");
             argument = $"-m spacy download xx_ent_wiki_sm";
             rezultProcess = StartProccess(argument, null, @"\python.exe");
-            //if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  xx_ent_wiki_sm: {rezultProcess}");
+            if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  xx_ent_wiki_sm: {rezultProcess}");
 
 
 
-            //if (_project != null) _project.SendInfoToLog($"Проверка зависимости  squad_bert ");
+            if (_project != null) _project.SendInfoToLog($"Проверка зависимости  squad_bert ");
             argument = $"-m deeppavlov install squad_bert ";
             rezultProcess = StartProccess(argument, null, @"\python.exe");
-            //if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  squad_bert: {rezultProcess}");
+            if (_project != null) _project.SendInfoToLog($"Результат Проверки зависимости  squad_bert: {rezultProcess}");
 
 
 
-            //if (_project != null) _project.SendInfoToLog("скачка зависимостей закончена");
+            if (_project != null) _project.SendInfoToLog("скачка зависимостей закончена");
 
 
 
