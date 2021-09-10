@@ -14,8 +14,8 @@ namespace TestProject
         static void Main(string[] args)
         {
 
-
-            Download();
+            
+            //Download();
         }
 
         public static void Download() {
@@ -25,6 +25,7 @@ namespace TestProject
             //worker.DownloadPackages(path);
             worker.DownloadPackages();
             worker.DownloadModels();
+            
         }
 
         public static void Generate() {
