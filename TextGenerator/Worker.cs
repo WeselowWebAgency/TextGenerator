@@ -51,6 +51,8 @@ namespace TextGenerator
         public void DownloadPackages()
         {
 
+            SaveLog("скачка зависимостей начата");
+
             SaveLog("проверка обновления pip");
             string WorkingDirectory = $"{_pythonPath}\\Scripts";
             string argument = "install --upgrade pip command";
