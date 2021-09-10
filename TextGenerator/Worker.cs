@@ -154,8 +154,6 @@ namespace TextGenerator
             DownloadGPT2(GPT2path);
 
             //requirements
-
-
             DownloadScript("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
 
 
@@ -173,7 +171,7 @@ namespace TextGenerator
         private void DownloadEngScripts(string path)
         {
             Dictionary<string, string> engScripts = new Dictionary<string, string>();
-            engScripts.Add("encoder.json", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/encoder.json");
+            
             engScripts.Add("main.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/main.py");
 
             foreach (var item in engScripts) DownloadScript(item.Key, item.Value, path);
