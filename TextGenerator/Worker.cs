@@ -133,8 +133,8 @@ namespace TextGenerator
 
         public void SaveScripts()
         {
-            
-            string pathScripts = path  + "TextGenerator\\Assets\\";
+
+            string pathScripts = path + "TextGenerator\\Assets\\";
             if (!Directory.Exists(pathScripts)) Directory.CreateDirectory(pathScripts);
 
 
@@ -149,6 +149,7 @@ namespace TextGenerator
 
 
             SaveLog($" Cкачка скриптов начата");
+
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
@@ -191,10 +192,20 @@ namespace TextGenerator
 
         public void DownloadFile(string fileName, string url, string savePath)
         {
-            if (!File.Exists(savePath + fileName))
+           
+            try
             {
-                string downloadText = _webClient.DownloadString(url);
-                File.WriteAllText(savePath + fileName, downloadText);
+                if (!File.Exists(savePath + fileName))
+                {
+                    string downloadText = _webClient.DownloadString(url);
+                    File.WriteAllText(savePath + fileName, downloadText);
+                    SaveLog($"файл {fileName} скачан");
+                }
+            }
+            catch (Exception ex) {
+                SaveLog($"ошибка при скачке файла {fileName}: {ex.Message}");
+
+
             }
         }
     }
