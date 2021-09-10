@@ -41,16 +41,28 @@ namespace TextGenerator
             string generateEngScriptPath = project.Variables["EngScriptPath"].Value;
 
             string rez = "";
-            PythonNetWorker PythonNet = new PythonNetWorker(@"C:\Python37\", "python37.dll");
+
+            string pythonPath = project.Variables["PythonPath"].Value;
+            PythonNetWorker PythonNet = new PythonNetWorker(pythonPath, "python37.dll");
+
+            
+
+            Worker worker = new Worker(project, pythonPath);
+            worker.DownloadPackages();
+            worker.DownloadModels();
+
+
+
+
 
             switch (language) {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text, rugptpPath);
+                    rez = PythonNet.GenerateRusText(text);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text, generateEngScriptPath);
+                    rez = PythonNet.GenerateEngText(text);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:

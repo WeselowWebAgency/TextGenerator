@@ -26,9 +26,10 @@ namespace TextGenerator
         /// <param name="text"></param>
         /// <param name="directoryScript"> сюда нужно передать путь до папки в которой хранится скрипт</param>
         /// <returns></returns>
-        public string GenerateEngText(string text, string directoryScript)
+        public string GenerateEngText(string text)
         {
-            SetPaths(directoryScript);
+            string path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + @"TextGenerator\Assets\En\";
+            SetPaths(path);
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
             {
@@ -36,7 +37,7 @@ namespace TextGenerator
                 {
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-                    dynamic results = sampleModule.text_generator(text, directoryScript, -1, 0.7,  40,  1); // вызов метода из скрипта
+                    dynamic results = sampleModule.text_generator(text, path, /*length*/ -1, /*temperature*/  0.7, /*top_k*/  40, /*nsamples*/ 1); // вызов метода из скрипта
                     return results;
                 }
                 catch (Exception error)
@@ -55,8 +56,10 @@ namespace TextGenerator
         /// <param name="text"></param>
         /// <param name="pathPythonFolder"> сюда нужно передать путь до папки в которой хранится скрипт</param>
         /// <returns></returns>
-        public string GenerateRusText(string text, string pathPythonFolder) {
-            SetPaths(pathPythonFolder); // сюда нужно передать путь до папки со скриптом
+        public string GenerateRusText(string text) {
+            string path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + @"TextGenerator\Assets\Ru\";
+            SetPaths(path); // сюда нужно передать путь до папки со скриптом
+            
             using (Py.GIL()) 
             {
                 try
