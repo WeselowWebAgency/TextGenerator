@@ -152,7 +152,7 @@ namespace TextGenerator
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
-            DownloadScript("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
+            DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
             SaveLog($" Cкачка скриптов закочена");
 
 
@@ -163,14 +163,14 @@ namespace TextGenerator
             Dictionary<string, string> rusScripts = new Dictionary<string, string>();
             rusScripts.Add("generateModelParams.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/generateModelParams.py");
             rusScripts.Add("text_expansion.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/text_expansion.py");
-            foreach (var item in rusScripts) DownloadScript(item.Key, item.Value, path);
+            foreach (var item in rusScripts) DownloadFile(item.Key, item.Value, path);
         }
 
         private void DownloadEngScripts(string path)
         {
             Dictionary<string, string> engScripts = new Dictionary<string, string>();
             engScripts.Add("main.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/main.py");
-            foreach (var item in engScripts) DownloadScript(item.Key, item.Value, path);
+            foreach (var item in engScripts) DownloadFile(item.Key, item.Value, path);
         }
 
         private void DownloadGPT2(string path)
@@ -186,10 +186,10 @@ namespace TextGenerator
             filesGPT2.Add("utils.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/utils.py");
             filesGPT2.Add("vocab.bpe", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/vocab.bpe");
 
-            foreach (var item in filesGPT2) DownloadScript(item.Key, item.Value, path);
+            foreach (var item in filesGPT2) DownloadFile(item.Key, item.Value, path);
         }
 
-        public void DownloadScript(string fileName, string url, string savePath)
+        public void DownloadFile(string fileName, string url, string savePath)
         {
             if (!File.Exists(savePath + fileName))
             {
