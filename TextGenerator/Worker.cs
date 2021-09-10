@@ -148,12 +148,12 @@ namespace TextGenerator
             if (!Directory.Exists(pathRuScripts)) Directory.CreateDirectory(pathRuScripts);
 
 
-
+            SaveLog($" Cкачка скриптов начата");
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
             DownloadScript("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
-            
+            SaveLog($" Cкачка скриптов закочена");
 
 
         }
