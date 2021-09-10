@@ -19,7 +19,7 @@ namespace TestProject
         }
 
         public static void Download() {
-            Worker worker = new Worker(@"C:\Python37");
+            Downloader worker = new Downloader(@"C:\Python37");
 
             string path = @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TextGenerator\";
             //worker.DownloadPackages(path);

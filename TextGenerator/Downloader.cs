@@ -12,21 +12,21 @@ using System.Windows.Input;
 
 namespace TextGenerator
 {
-    public class Worker
+    public class Downloader
     {
 
         private WebClient _webClient;
         private string path;
         //private IZennoPosterProjectModel  _project;
         private string _pythonPath;
-        public Worker(string pythonPath)
+        public Downloader(string pythonPath)
         {
             _webClient = new WebClient();
             path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
             _pythonPath = pythonPath;
         }
 
-        public Worker(IZennoPosterProjectModel project, string pythonPath)
+        public Downloader(IZennoPosterProjectModel project, string pythonPath)
         {
             _project = project;
         }

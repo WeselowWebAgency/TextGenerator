@@ -47,7 +47,7 @@ namespace TextGenerator
 
             
 
-            Worker worker = new Worker(project, pythonPath);
+            Downloader worker = new Downloader(project, pythonPath);
             worker.SaveScripts();
             worker.DownloadPackages();
             worker.DownloadModels();
