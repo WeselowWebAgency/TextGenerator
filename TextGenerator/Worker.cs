@@ -193,7 +193,6 @@ namespace TextGenerator
 
         private void DownloadFile(string fileName, string url, string savePath)
         {
-           
             try
             {
                 if (!File.Exists(savePath + fileName))
