@@ -17,7 +17,7 @@ namespace TextGenerator
 
         private WebClient _webClient;
         private string path;
-        //private IZennoPosterProjectModel  _project;
+        private IZennoPosterProjectModel  _project;
         private string _pythonPath;
         public Downloader(string pythonPath)
         {
