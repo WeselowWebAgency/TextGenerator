@@ -149,7 +149,6 @@ namespace TextGenerator
 
 
             SaveLog($" Cкачка скриптов начата");
-
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
@@ -190,7 +189,7 @@ namespace TextGenerator
             foreach (var item in filesGPT2) DownloadFile(item.Key, item.Value, path);
         }
 
-        public void DownloadFile(string fileName, string url, string savePath)
+        private void DownloadFile(string fileName, string url, string savePath)
         {
            
             try
@@ -204,8 +203,6 @@ namespace TextGenerator
             }
             catch (Exception ex) {
                 SaveLog($"ошибка при скачке файла {fileName}: {ex.Message}");
-
-
             }
         }
     }
