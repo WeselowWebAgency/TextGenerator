@@ -124,7 +124,7 @@ namespace TextGenerator
 
         public void SaveLog(string text)
         {
-            //if (_project != null) _project.SendInfoToLog(text);
+            (_project != null) _project.SendInfoToLog(text);
 
 
 
@@ -153,8 +153,10 @@ namespace TextGenerator
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
 
+            //requirements
 
 
+            DownloadScript("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
 
 
 
