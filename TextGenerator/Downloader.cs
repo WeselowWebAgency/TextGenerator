@@ -25,6 +25,7 @@ namespace TextGenerator
             //_path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
             _path = Path.GetTempPath();
             _pythonPath = pythonPath;
+            _project = null;
         }
 
         public Downloader(IZennoPosterProjectModel project, string pythonPath)
@@ -142,7 +143,7 @@ namespace TextGenerator
         public void SaveLog(string text)
         {
             if (_project != null) _project.SendInfoToLog(text);
-            else Console.WriteLine(text);
+             Console.WriteLine(text);
         }
 
         public void SaveScripts()
