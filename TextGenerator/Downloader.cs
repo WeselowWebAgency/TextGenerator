@@ -17,7 +17,7 @@ namespace TextGenerator
 
         private WebClient _webClient;
         private string _path;
-        private IZennoPosterProjectModel  _project;
+        private IZennoPosterProjectModel _project;
         private string _pythonPath;
         public Downloader(string pythonPath)
         {
@@ -49,7 +49,8 @@ namespace TextGenerator
             return result;
         }
 
-        public void CreateDirectories() {
+        public void CreateDirectories()
+        {
             string baseFolder = _path + "TextGenerator\\";
             if (Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
 
@@ -111,22 +112,18 @@ namespace TextGenerator
 
         public void DownloadModels()
         {
-            if (!File.Exists(_path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin"))
-            {
-                SaveLog("скачка моделей начата");
+            string path = _path + @"TextGenerator\Assets\En\";
+           
+            SaveLog("скачка моделей начата");
 
-                try
-                {
-                    _webClient.DownloadFile("https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", _path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin");
-                    SaveLog("скачка моделей закончена");
-                }
+            DownloadFile("gpt2-pytorch_model.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
 
-                catch (Exception ex)
-                {
-                    SaveLog($" Cкачка моделей закончена с ошибкой {ex.Message}".ToUpper());
-                }
+            SaveLog("скачка моделей закончена");
 
-            }
+
+
+
+
 
         }
 
@@ -156,7 +153,7 @@ namespace TextGenerator
             string pathEngScripts = pathScripts + "En\\";
             string GPT2path = pathEngScripts + "GPT2\\";
             string pathRuScripts = pathScripts + "Ru\\";
-            
+
             CreateDirectories();
 
             SaveLog($" Cкачка скриптов начата");
@@ -205,11 +202,12 @@ namespace TextGenerator
                 if (!File.Exists(savePath + fileName))
                 {
                     _webClient.DownloadFile(url, savePath + fileName);
-                    
+
                     SaveLog($"файл {fileName} скачан");
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 SaveLog($"ошибка при скачке файла {fileName}: {ex.Message}");
             }
         }
