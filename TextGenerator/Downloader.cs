@@ -24,6 +24,7 @@ namespace TextGenerator
             _webClient = new WebClient();
             //_path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
             _path = Path.GetTempPath();
+            
             _pythonPath = pythonPath;
             _project = null;
         }
@@ -115,16 +116,8 @@ namespace TextGenerator
             string path = _path + @"TextGenerator\Assets\En\";
            
             SaveLog("скачка моделей начата");
-
             DownloadFile("gpt2-pytorch_model.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
-
             SaveLog("скачка моделей закончена");
-
-
-
-
-
-
         }
 
         public string StartProccess(string arg, string WorkingDirectory, string fileName = @"\Scripts\pip.exe")
@@ -157,14 +150,14 @@ namespace TextGenerator
             CreateDirectories();
 
             SaveLog($" Cкачка скриптов начата");
-            DownloadRusScript(pathRuScripts);
+            DownloadRusScripts(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
             DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", _path + "TextGenerator\\");
             SaveLog($" Cкачка скриптов закочена");
         }
 
-        private void DownloadRusScript(string path)
+        private void DownloadRusScripts(string path)
         {
             Dictionary<string, string> rusScripts = new Dictionary<string, string>();
             rusScripts.Add("generateModelParams.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/generateModelParams.py");
