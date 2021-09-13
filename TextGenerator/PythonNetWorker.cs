@@ -76,7 +76,6 @@ namespace TextGenerator
                 try
                 {
                     Logger.SaveLog("Запускаем Ru-генератор ...", LogType.Info);
-                    //PythonEngine.Initialize();
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
                     dynamic setParams = sampleModule.SetParams(
                         /*length =*/ textParams.Length, 
