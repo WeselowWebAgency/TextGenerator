@@ -10,4 +10,4 @@ xx_ent_wiki_sm
 pandas
 numpy
 bert_dp
-
+torch
