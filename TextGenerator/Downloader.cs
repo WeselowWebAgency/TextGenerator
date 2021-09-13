@@ -141,8 +141,8 @@ namespace TextGenerator
 
         public void SaveLog(string text)
         {
-            //if (_project != null) _project.SendInfoToLog(text);
-            /*else*/ Console.WriteLine(text);
+            if (_project != null) _project.SendInfoToLog(text);
+            else Console.WriteLine(text);
         }
 
         public void SaveScripts()
