@@ -140,7 +140,7 @@ namespace TextGenerator
             string path = _path + @"TextGenerator\Assets\En\";
 
             SaveLog("скачка моделей начата", log.info);
-            DownloadFile("models.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
+            DownloadFile("model_en.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
             SaveLog("скачка моделей закончена",log.info);
         }
 

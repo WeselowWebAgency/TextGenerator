@@ -18,7 +18,7 @@ baseDirectory = ""
 
 def text_generator(text, baseDirectory,length = -1 ,temperature = 0.7,top_k = 40, nsamples = 1  ):
     
-    state_dict = torch.load(baseDirectory + "gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
+    state_dict = torch.load(baseDirectory + "model_en.bin", map_location='cpu' if not torch.cuda.is_available() else None)
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--text", type=str, required=False,default=text)
@@ -89,10 +89,10 @@ def Get_state_dict():
     return state_dict
 
 if __name__ == '__main__':
-    if os.path.exists(baseDirectory +"\\\\gpt2-pytorch_model.bin"):
+    if os.path.exists(baseDirectory +"\\model_en.bin"):
         
         Text = '''It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.'''
         text_generator(Text)
     else:
-        print('Please download gpt2-pytorch_model.bin')
+        print('Please download model_en.bin')
         sys.exit()
