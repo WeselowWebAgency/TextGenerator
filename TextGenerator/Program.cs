@@ -47,15 +47,15 @@ namespace TextGenerator
             worker.SaveScripts();
             worker.DownloadPackages();
             worker.DownloadModels();
-            
+            TextParams par = new TextParams();
             switch (language) {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text);
+                    rez = PythonNet.GenerateRusText(text, par);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text);
+                    rez = PythonNet.GenerateEngText(text, par);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:
