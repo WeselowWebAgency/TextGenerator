@@ -37,11 +37,6 @@ namespace TextGenerator
             string pathFileRezult = project.Variables["pathFileRezult"].Value;
 
             
-            string rugptpPath = project.Variables["RugptPath"].Value;
-            string generateEngScriptPath = project.Variables["EngScriptPath"].Value;
-
-            string rez = "";
-
             string pythonPath = project.Variables["PythonPath"].Value;
             PythonNetWorker PythonNet = new PythonNetWorker(pythonPath, "python37.dll");
 
