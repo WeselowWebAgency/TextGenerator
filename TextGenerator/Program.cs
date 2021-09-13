@@ -40,8 +40,8 @@ namespace TextGenerator
             string pythonPath = project.Variables["PythonPath"].Value;
             PythonNetWorker PythonNet = new PythonNetWorker(pythonPath, "python37.dll");
 
-            
 
+            string rez = "";
             Downloader worker = new Downloader(project, pythonPath);
             worker.SaveScripts();
             worker.DownloadPackages();

@@ -15,7 +15,7 @@ namespace TestProject
         {
 
 
-            Generate();
+            Download();
         }
 
         public static void Download() {
