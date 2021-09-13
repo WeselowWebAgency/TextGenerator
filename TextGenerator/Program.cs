@@ -27,10 +27,14 @@ namespace TextGenerator
         /// <param name="instance">Объект инстанса выделеный для данного скрипта</param>
         /// <param name="project">Объект проекта выделеный для данного скрипта</param>
         /// <returns>Код выполнения скрипта</returns>		
+        /// 
+
+        IZennoPosterProjectModel _project;
         public int Execute(Instance instance, IZennoPosterProjectModel project)
         {
             int executionResult = 0;
-
+            _project = project;
+            
             string PathFile = project.Variables["pathFile"].Value;
             string text = File.ReadAllText(PathFile);
 
@@ -79,70 +83,73 @@ namespace TextGenerator
         public TextParams SetParams(IZennoPosterProjectModel project)
         {
             TextParams par = new TextParams();
-            try
-            {
-                par.K = string.IsNullOrEmpty(project.Variables["k"].Value) ? Convert.ToInt32(project.Variables["k"].Value.Trim()) : par.K;
-            }
-            catch (Exception ex )
-            {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
-            }
-            try{ 
-                par.P =  string.IsNullOrEmpty(project.Variables["p"].Value) ? Convert.ToInt32(project.Variables["p"].Value.Trim()) : par.P; 
-            }
-            catch (Exception ex)
-            {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
-            }
-            try
-            {
-                par.Length = string.IsNullOrEmpty(project.Variables["Length"].Value) ? Convert.ToInt32(project.Variables["Length"].Value.Trim()) : par.Length;
-            }
-            catch (Exception ex)
-            {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
-            }
-            try
-            {
-                par.NumReturnSequences = string.IsNullOrEmpty(project.Variables["NumReturnSequences"].Value.Trim()) ? Convert.ToInt32(project.Variables["NumReturnSequences"].Value) : par.NumReturnSequences;
-            }
-            catch (Exception ex)
-            {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
-            }
-            try
-            {
-                par.Temperature = string.IsNullOrEmpty(project.Variables["Temperature"].Value.Trim()) ? Convert.ToInt32(project.Variables["Temperature"].Value) : par.Temperature;
-            }
-            catch (Exception ex) {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
-            }
-            try {
-                par.RepetitionPenalty = string.IsNullOrEmpty(project.Variables["RepetitionPenalty"].Value.Trim()) ? Convert.ToDouble(project.Variables["RepetitionPenalty"].Value) : par.RepetitionPenalty;
-            }
-            catch (Exception ex) {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
-            }
 
-            try {
-                par.paraphrase = string.IsNullOrEmpty(project.Variables["paraphrase"].Value.Trim()) ? Convert.ToBoolean(project.Variables["paraphrase"].Value) : par.paraphrase;
-            }
-            catch (Exception ex) {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
+            par.K = ConvertToInt(project.Variables["K"].Value, par.K);
+            par.P = ConvertToDouble(project.Variables["P"].Value, par.P);
+            par.Length = ConvertToInt(project.Variables["Length"].Value, par.Length);
+            par.NumReturnSequences = ConvertToInt(project.Variables["NumReturnSequences"].Value, par.NumReturnSequences);
+            par.Temperature = ConvertToDouble(project.Variables["Temperature"].Value, par.Temperature);
+            par.RepetitionPenalty = ConvertToDouble(project.Variables["RepetitionPenalty"].Value, par.RepetitionPenalty);
+            par.paraphrase = ConvertToBool(project.Variables["paraphrase"].Value, par.paraphrase);
+            par.expand = ConvertToBool(project.Variables["expand"].Value, par.expand);
 
-            }
+
+
+
+
+
+
+
+
+
             
-            try
-            {
-                par.expand = string.IsNullOrEmpty(project.Variables["expand"].Value.Trim()) ? Convert.ToBoolean(project.Variables["expand"].Value) : par.expand;
-            }
-            catch (Exception ex)
-            {
-                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
-
-            }
 
             return par;
+
+        }
+
+        private int ConvertToInt(string value,int defoultValue) {
+            int rez = 0;
+            try
+            {
+                rez = string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defoultValue;
+            }
+            catch (Exception ex)
+            {
+                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+            }
+            return rez;
+        }
+
+        private Double ConvertToDouble(string value, double defoultValue) {
+            double rez = 0;
+            try
+            {
+                rez = string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defoultValue;
+            }
+            
+            catch (Exception ex)
+            {
+                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+            }
+            return rez;
+
+        }
+
+        public bool ConvertToBool(string value, bool defoultValue) {
+            bool rez = true; ;
+            try
+            {
+                rez = string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defoultValue;
+            }
+
+            catch (Exception ex)
+            {
+                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+                rez = !rez;
+            }
+            return rez;
+
 
         }
 
