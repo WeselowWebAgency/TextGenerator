@@ -99,7 +99,7 @@ namespace TextGenerator
             int rez = 0;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace TextGenerator
             double rez = 0;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             
             catch (Exception ex)
@@ -127,7 +127,7 @@ namespace TextGenerator
             bool rez = true; ;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             catch (Exception ex)
             {
