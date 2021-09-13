@@ -15,6 +15,8 @@ namespace TextGenerator.Models
         public double RepetitionPenalty { get; set; } = 1.0;
         public int NumReturnSequences { get; set; } = 1;
 
+        public bool paraphrase { get; set; } = false;
+        public bool expand { get; set; } = false;
 
     }
 }

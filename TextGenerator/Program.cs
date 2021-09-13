@@ -123,6 +123,25 @@ namespace TextGenerator
             catch (Exception ex) {
                 project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
             }
+
+            try {
+                par.paraphrase = string.IsNullOrEmpty(project.Variables["paraphrase"].Value.Trim()) ? Convert.ToBoolean(project.Variables["paraphrase"].Value) : par.paraphrase
+            }
+            catch (Exception ex) {
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
+
+            }
+            
+            try
+            {
+                par.expand = string.IsNullOrEmpty(project.Variables["expand"].Value.Trim()) ? Convert.ToBoolean(project.Variables["expand"].Value) : par.expand;
+            }
+            catch (Exception ex)
+            {
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
+
+            }
+
             return par;
 
         }
