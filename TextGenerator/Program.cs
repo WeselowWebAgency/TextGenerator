@@ -33,11 +33,11 @@ namespace TextGenerator
 
             string PathFile = project.Variables["pathFile"].Value;
             string text = File.ReadAllText(PathFile);
-            
+
             string language = project.Variables["language"].Value;
             string pathFileRezult = project.Variables["pathFileRezult"].Value;
 
-            
+
             string pythonPath = project.Variables["PythonPath"].Value;
             PythonNetWorker PythonNet = new PythonNetWorker(pythonPath, "python37.dll");
 
@@ -47,13 +47,31 @@ namespace TextGenerator
             worker.SaveScripts();
             worker.DownloadPackages();
             worker.DownloadModels();
-            TextParams par = new TextParams();
-            switch (language) {
+
+
+
+
+
+            TextParams par = new TextParams()
+            {
+                K = Convert.ToInt32(project.Variables["k"].Value),
+                P = Convert.ToInt32(project.Variables["p"].Value),
+                Length = Convert.ToInt32(project.Variables["Length"].Value),
+                NumReturnSequences = Convert.ToInt32(project.Variables["NumReturnSequences"].Value),
+                Temperature = Convert.ToInt32(project.Variables["Temperature"].Value),
+                RepetitionPenalty = Convert.ToDouble(project.Variables["RepetitionPenalty"].Value)
+            };
+
+
+
+
+            switch (language)
+            {
                 case "rus":
                     rez = PythonNet.GenerateRusText(text, par);
                     File.WriteAllText(pathFileRezult, rez);
                     break;
-                
+
                 case "eng":
                     rez = PythonNet.GenerateEngText(text, par);
                     File.WriteAllText(pathFileRezult, rez);

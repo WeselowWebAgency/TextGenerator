@@ -38,7 +38,7 @@ namespace TestProject
             PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
 
             
-            string rez = worker2.GenerateRusText(rusText, par);
+            string rez = worker2.GenerateEngText(engText, par);
 
         }
     }
