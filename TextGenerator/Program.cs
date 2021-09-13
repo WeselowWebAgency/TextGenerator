@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Resources;
 using System.Text;
+using TextGenerator.Models;
 using ZennoLab.CommandCenter;
 using ZennoLab.Emulation;
 using ZennoLab.InterfacesLibrary.ProjectModel;
@@ -46,11 +47,7 @@ namespace TextGenerator
             worker.SaveScripts();
             worker.DownloadPackages();
             worker.DownloadModels();
-
-
-
-
-
+            
             switch (language) {
                 case "rus":
                     rez = PythonNet.GenerateRusText(text);

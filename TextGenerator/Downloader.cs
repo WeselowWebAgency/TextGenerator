@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TextGenerator.Models;
 using ZennoLab.InterfacesLibrary.ProjectModel;
 
 namespace TextGenerator
@@ -24,7 +25,7 @@ namespace TextGenerator
             _webClient = new WebClient();
             //_path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
             _path = Path.GetTempPath();
-            
+
             _pythonPath = pythonPath;
             _project = null;
         }
@@ -53,59 +54,82 @@ namespace TextGenerator
         public void CreateDirectories()
         {
             string baseFolder = _path + "TextGenerator\\";
-            if (Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
+            CreateDirectory(baseFolder);
 
             string assetsPath = baseFolder + "Assets\\";
-            if (Directory.Exists(assetsPath)) Directory.CreateDirectory(assetsPath);
+            CreateDirectory(assetsPath);
 
             string enScripts = assetsPath + "En\\";
-            if (Directory.Exists(enScripts)) Directory.CreateDirectory(enScripts);
+            CreateDirectory(enScripts);
 
             string ruScripts = assetsPath + "Ru\\";
-            if (Directory.Exists(ruScripts)) Directory.CreateDirectory(ruScripts);
+            CreateDirectory(ruScripts);
 
             string GPT2path = enScripts + "GPT2\\";
-            if (!Directory.Exists(GPT2path)) Directory.CreateDirectory(GPT2path);
+            CreateDirectory(GPT2path);
         }
+
+        public bool CreateDirectory(string path) {
+            bool rez = false;
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                    rez = true;
+                }
+
+                catch (Exception ex)
+                {
+                    SaveLog($"Ошибка при создании папке путь {path}. ошикба {ex.Message}", log.error);
+                    rez = false;
+
+                }
+            }
+            else return true;
+
+            return rez;
+        }
+
 
         public void DownloadPackages()
         {
             CreateDirectories();
 
-            SaveLog("скачка зависимостей начата");
+            SaveLog("скачка зависимостей начата", log.info);
 
-            SaveLog("проверка обновления pip");
+            SaveLog("проверка обновления pip", log.info);
             string WorkingDirectory = $"{_pythonPath}\\Scripts";
             string argument = "install --upgrade pip command";
             string rezultProcess = StartProccess(argument, WorkingDirectory);
-            SaveLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
+            SaveLog($"проверка обновления закончена. Резуьтат {rezultProcess}", log.info);
 
 
             var packages = File.ReadAllLines(_path + @"TextGenerator\requirements.txt");
 
             for (int i = 0; i < packages.Length; i++)
             {
-                SaveLog($"Проверка зависимости  {packages[i]}");
+                SaveLog($"Проверка зависимости  {packages[i]}", log.info);
                 argument = $"install {packages[i]}";
                 rezultProcess = StartProccess(argument, null);
-                SaveLog($"Результат Проверки зависимости  {packages[i]}: {rezultProcess}");
+                SaveLog($"Результат Проверки зависимости  {packages[i]}: {rezultProcess}", log.info);
             }
 
-            SaveLog($"Проверка зависимости  xx_ent_wiki_sm ");
+            SaveLog($"Проверка зависимости  xx_ent_wiki_sm ", log.info);
             argument = $"-m spacy download xx_ent_wiki_sm";
             rezultProcess = StartProccess(argument, null, @"\python.exe");
-            SaveLog($"Результат Проверки зависимости  xx_ent_wiki_sm: {rezultProcess}");
+            SaveLog($"Результат Проверки зависимости  xx_ent_wiki_sm: {rezultProcess}", log.info);
 
 
 
-            SaveLog($"Проверка зависимости  squad_bert ");
+            SaveLog($"Проверка зависимости  squad_bert ", log.info);
             argument = $"-m deeppavlov install squad_bert ";
             rezultProcess = StartProccess(argument, null, @"\python.exe");
-            SaveLog($"Результат Проверки зависимости  squad_bert: {rezultProcess}");
+            SaveLog($"Результат Проверки зависимости  squad_bert: {rezultProcess}", log.info);
 
 
 
-            SaveLog("скачка зависимостей закончена");
+            SaveLog("скачка зависимостей закончена", log.info);
 
 
 
@@ -114,10 +138,10 @@ namespace TextGenerator
         public void DownloadModels()
         {
             string path = _path + @"TextGenerator\Assets\En\";
-           
-            SaveLog("скачка моделей начата");
-            DownloadFile("gpt2-pytorch_model.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
-            SaveLog("скачка моделей закончена");
+
+            SaveLog("скачка моделей начата", log.info);
+            DownloadFile("models.bin", "https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path);
+            SaveLog("скачка моделей закончена",log.info);
         }
 
         public string StartProccess(string arg, string WorkingDirectory, string fileName = @"\Scripts\pip.exe")
@@ -133,10 +157,25 @@ namespace TextGenerator
             return StartProcess(start);
         }
 
-        public void SaveLog(string text)
+        public void SaveLog(string text, log logType)
         {
-            if (_project != null) _project.SendInfoToLog(text);
-            Console.WriteLine(text);
+            if (_project != null)
+            {
+                switch (logType)
+                {
+                    case log.error:
+                        _project.SendErrorToLog(text);
+
+                        break;
+
+                    case log.info:
+                        _project.SendInfoToLog(text);
+                        break;
+                }
+            }
+
+            else Console.WriteLine(text);
+
         }
 
         public void SaveScripts()
@@ -149,12 +188,12 @@ namespace TextGenerator
 
             CreateDirectories();
 
-            SaveLog($" Cкачка скриптов начата");
+            SaveLog($" Cкачка скриптов начата", log.info);
             DownloadRusScripts(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
             DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", _path + "TextGenerator\\");
-            SaveLog($" Cкачка скриптов закочена");
+            SaveLog($" Cкачка скриптов закочена", log.info);
         }
 
         private void DownloadRusScripts(string path)
@@ -196,12 +235,12 @@ namespace TextGenerator
                 {
                     _webClient.DownloadFile(url, savePath + fileName);
 
-                    SaveLog($"файл {fileName} скачан");
+                    SaveLog($"файл {fileName} скачан", log.info);
                 }
             }
             catch (Exception ex)
             {
-                SaveLog($"ошибка при скачке файла {fileName}: {ex.Message}");
+                SaveLog($"ошибка при скачке файла {fileName}: {ex.Message}", log.error);
             }
         }
     }

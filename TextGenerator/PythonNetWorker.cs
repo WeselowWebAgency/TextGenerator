@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextGenerator.Models;
 
 namespace TextGenerator
 {
@@ -26,7 +27,7 @@ namespace TextGenerator
         /// <param name="text"></param>
         /// <param name="directoryScript"> сюда нужно передать путь до папки в которой хранится скрипт</param>
         /// <returns></returns>
-        public string GenerateEngText(string text)
+        public string GenerateEngText(string text, TextParams parametres)
         {
             string path = Path.GetTempPath() + @"TextGenerator\Assets\En\";
             SetPaths(path);
@@ -37,7 +38,7 @@ namespace TextGenerator
                 {
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-                    dynamic results = sampleModule.text_generator(text, path, /*length*/ -1, /*temperature*/  0.7, /*top_k*/  40, /*nsamples*/ 1); // вызов метода из скрипта
+                    dynamic results = sampleModule.text_generator(text, path, /*length*/ parametres.Length, /*temperature*/  parametres.Temperature, /*top_k*/  parametres.K, /*nsamples*/ 1); // вызов метода из скрипта
                     return results;
                 }
                 catch (Exception error)
@@ -56,7 +57,7 @@ namespace TextGenerator
         /// <param name="text"></param>
         /// <param name="pathPythonFolder"> сюда нужно передать путь до папки в которой хранится скрипт</param>
         /// <returns></returns>
-        public string GenerateRusText(string text) {
+        public string GenerateRusText(string text, TextParams  parametres) {
             string path = Path.GetTempPath() + @"TextGenerator\Assets\Ru\";
             SetPaths(path); // сюда нужно передать путь до папки со скриптом
             
@@ -65,7 +66,7 @@ namespace TextGenerator
                 try
                 {
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
-                    dynamic setParams = sampleModule.SetParams(/*length =*/ 100, /*temperature =*/ 1.0, /*k = */  10, /*p*/  0.9, /*repetition_penalty*/  1.0, /*num_return_sequences*/  1); // вызов метода из скрипта
+                    dynamic setParams = sampleModule.SetParams(/*length =*/ parametres.Length, /*temperature =*/ parametres.Temperature, /*k = */  parametres.K, /*p*/ parametres.P, /*repetition_penalty*/ parametres.RepetitionPenalty  , /*num_return_sequences*/  parametres.NumReturnSequences); // вызов метода из скрипта
                     dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
                     return result;
                 }
