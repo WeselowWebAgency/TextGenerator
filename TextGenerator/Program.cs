@@ -43,24 +43,25 @@ namespace TextGenerator
 
 
             string rez = "";
-            Downloader worker = new Downloader(project, pythonPath);
-            worker.SaveScripts();
-            worker.DownloadPackages();
-            worker.DownloadModels();
 
 
+            Downloader worker = new Downloader(@"C:\Python37");
 
-
-
-            TextParams par = new TextParams()
+            string path = @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TextGenerator\";
+            //worker.DownloadPackages(path);
+            if (worker.CreateDirectories() == true)
             {
-                K = Convert.ToInt32(project.Variables["k"].Value),
-                P = Convert.ToInt32(project.Variables["p"].Value),
-                Length = Convert.ToInt32(project.Variables["Length"].Value),
-                NumReturnSequences = Convert.ToInt32(project.Variables["NumReturnSequences"].Value),
-                Temperature = Convert.ToInt32(project.Variables["Temperature"].Value),
-                RepetitionPenalty = Convert.ToDouble(project.Variables["RepetitionPenalty"].Value)
-            };
+
+                worker.SaveScripts();
+                worker.DownloadPackages();
+                worker.DownloadModels();
+            }
+
+
+
+
+
+
 
 
 
@@ -68,12 +69,12 @@ namespace TextGenerator
             switch (language)
             {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text, par);
+                    rez = PythonNet.GenerateRusText(text, SetParams(project));
                     File.WriteAllText(pathFileRezult, rez);
                     break;
 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text, par);
+                    rez = PythonNet.GenerateEngText(text, SetParams(project));
                     File.WriteAllText(pathFileRezult, rez);
                     break;
                 default:
@@ -84,5 +85,59 @@ namespace TextGenerator
 
             return executionResult;
         }
+        public TextParams SetParams(IZennoPosterProjectModel project)
+        {
+            TextParams par = new TextParams();
+            try
+            {
+                par.K = string.IsNullOrEmpty(project.Variables["k"].Value) ? Convert.ToInt32(project.Variables["k"].Value.Trim()) : par.K;
+            }
+            catch (Exception ex )
+            {
+                project.SendErrorToLog("Ошибка при конвертации {ex}",ex.Message);
+            }
+            try{ 
+                par.P =  string.IsNullOrEmpty(project.Variables["p"].Value) ? Convert.ToInt32(project.Variables["p"].Value.Trim()) : par.P; 
+            }
+            catch (Exception ex)
+            {
+                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+            }
+            try
+            {
+                par.Length = string.IsNullOrEmpty(project.Variables["Length"].Value) ? Convert.ToInt32(project.Variables["Length"].Value.Trim()) : par.Length;
+            }
+            catch (Exception ex)
+            {
+                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+            }
+            try
+            {
+                par.NumReturnSequences = string.IsNullOrEmpty(project.Variables["NumReturnSequences"].Value.Trim()) ? Convert.ToInt32(project.Variables["NumReturnSequences"].Value) : par.NumReturnSequences;
+            }
+            catch (Exception ex)
+            {
+                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+            }
+            try
+            {
+                par.Temperature = string.IsNullOrEmpty(project.Variables["Temperature"].Value.Trim()) ? Convert.ToInt32(project.Variables["Temperature"].Value) : par.Temperature;
+            }
+            catch (Exception ex) {
+                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+            }
+            try {
+                par.RepetitionPenalty = string.IsNullOrEmpty(project.Variables["RepetitionPenalty"].Value.Trim()) ? Convert.ToDouble(project.Variables["RepetitionPenalty"].Value) : par.RepetitionPenalty;
+            }
+            catch (Exception ex) {
+                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+            }
+            return par;
+
+        }
+
+
     }
+
+
 }
