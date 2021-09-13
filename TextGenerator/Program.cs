@@ -95,11 +95,11 @@ namespace TextGenerator
 
         }
 
-        private int ConvertToInt(string value,int defoultValue) {
+        private int ConvertToInt(string value,int defaultValue) {
             int rez = 0;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defoultValue;
+                rez = string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             catch (Exception ex)
             {
@@ -108,11 +108,11 @@ namespace TextGenerator
             return rez;
         }
 
-        private Double ConvertToDouble(string value, double defoultValue) {
+        private Double ConvertToDouble(string value, double defaultValue) {
             double rez = 0;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defoultValue;
+                rez = string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             
             catch (Exception ex)
@@ -123,11 +123,11 @@ namespace TextGenerator
 
         }
 
-        public bool ConvertToBool(string value, bool defoultValue) {
+        public bool ConvertToBool(string value, bool defaultValue) {
             bool rez = true; ;
             try
             {
-                rez = string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defoultValue;
+                rez = string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defaultValue;
             }
             catch (Exception ex)
             {
