@@ -57,15 +57,6 @@ namespace TextGenerator
                 worker.DownloadModels();
             }
 
-
-
-
-
-
-
-
-
-
             switch (language)
             {
                 case "rus":
@@ -94,14 +85,14 @@ namespace TextGenerator
             }
             catch (Exception ex )
             {
-                project.SendErrorToLog("Ошибка при конвертации {ex}",ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
             }
             try{ 
                 par.P =  string.IsNullOrEmpty(project.Variables["p"].Value) ? Convert.ToInt32(project.Variables["p"].Value.Trim()) : par.P; 
             }
             catch (Exception ex)
             {
-                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
             }
             try
             {
@@ -109,7 +100,7 @@ namespace TextGenerator
             }
             catch (Exception ex)
             {
-                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
             }
             try
             {
@@ -117,20 +108,20 @@ namespace TextGenerator
             }
             catch (Exception ex)
             {
-                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
             }
             try
             {
                 par.Temperature = string.IsNullOrEmpty(project.Variables["Temperature"].Value.Trim()) ? Convert.ToInt32(project.Variables["Temperature"].Value) : par.Temperature;
             }
             catch (Exception ex) {
-                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
             }
             try {
                 par.RepetitionPenalty = string.IsNullOrEmpty(project.Variables["RepetitionPenalty"].Value.Trim()) ? Convert.ToDouble(project.Variables["RepetitionPenalty"].Value) : par.RepetitionPenalty;
             }
             catch (Exception ex) {
-                project.SendErrorToLog("Ошибка при конвертации {ex}", ex.Message);
+                project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
             }
             return par;
 
