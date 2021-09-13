@@ -84,3 +84,13 @@ C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\
 C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
 C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.exe
 C:\Users\админ\Source\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\obj\Debug\TestProject.csproj.AssemblyReference.cache
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\obj\Debug\TestProject.exe
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\obj\Debug\TestProject.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TestProject.exe.config
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TestProject.exe
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TestProject.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TextGenerator.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TextGenerator.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\obj\Debug\TestProject.csproj.CopyComplete

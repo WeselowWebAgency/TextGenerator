@@ -26,3 +26,14 @@ C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Deb
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\System.Security.Permissions.dll
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\System.Security.Principal.Windows.dll
 C:\Users\Admin\source\repos\WeselowWebAgency\TextGenerator\TextGenerator\obj\Debug\TextGenerator.csproj.CopyComplete
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\TextGenerator.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\TextGenerator.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\Python.Runtime.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.AccessControl.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.Permissions.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\obj\Debug\TextGenerator.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\obj\Debug\TextGenerator.csproj.CopyComplete
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\obj\Debug\TextGenerator.dll
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\obj\Debug\TextGenerator.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\obj\Debug\TextGenerator.csproj.AssemblyReference.cache

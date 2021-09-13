@@ -16,13 +16,14 @@ namespace TextGenerator
     {
 
         private WebClient _webClient;
-        private string path;
+        private string _path;
         private IZennoPosterProjectModel  _project;
         private string _pythonPath;
         public Downloader(string pythonPath)
         {
             _webClient = new WebClient();
-            path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
+            //_path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
+            _path = Path.GetTempPath();
             _pythonPath = pythonPath;
         }
 
@@ -51,6 +52,19 @@ namespace TextGenerator
 
         public void DownloadPackages()
         {
+            string baseFolder = _path + "TextGenerator\\";
+            if (Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
+
+            string assetsPath = baseFolder + "Assets\\";
+            if (Directory.Exists(assetsPath)) Directory.CreateDirectory(assetsPath);
+
+            string enScripts = assetsPath + "En\\";
+            if (Directory.Exists(enScripts)) Directory.CreateDirectory(enScripts);
+
+            string ruScripts = assetsPath + "Ru\\";
+            if (Directory.Exists(ruScripts)) Directory.CreateDirectory(ruScripts);
+
+
 
             SaveLog("скачка зависимостей начата");
 
@@ -61,7 +75,7 @@ namespace TextGenerator
             SaveLog($"проверка обновления закончена. Резуьтат {rezultProcess}");
 
 
-            var packages = File.ReadAllLines(path + @"TextGenerator\requirements.txt");
+            var packages = File.ReadAllLines(_path + @"TextGenerator\requirements.txt");
 
             for (int i = 0; i < packages.Length; i++)
             {
@@ -93,13 +107,13 @@ namespace TextGenerator
 
         public void DownloadModels()
         {
-            if (!File.Exists(path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin"))
+            if (!File.Exists(_path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin"))
             {
                 SaveLog("скачка моделей начата");
 
                 try
                 {
-                    _webClient.DownloadFile("https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin");
+                    _webClient.DownloadFile("https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-pytorch_model.bin", _path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin");
                     SaveLog("скачка моделей закончена");
                 }
 
@@ -127,14 +141,14 @@ namespace TextGenerator
 
         public void SaveLog(string text)
         {
-            if (_project != null) _project.SendInfoToLog(text);
-            else Console.WriteLine(text);
+            //if (_project != null) _project.SendInfoToLog(text);
+            /*else*/ Console.WriteLine(text);
         }
 
         public void SaveScripts()
         {
 
-            string pathScripts = path + "TextGenerator\\Assets\\";
+            string pathScripts = _path + "TextGenerator\\Assets\\";
             if (!Directory.Exists(pathScripts)) Directory.CreateDirectory(pathScripts);
 
 
@@ -152,7 +166,7 @@ namespace TextGenerator
             DownloadRusScript(pathRuScripts);
             DownloadEngScripts(pathEngScripts);
             DownloadGPT2(GPT2path);
-            DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
+            DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", _path + "TextGenerator\\");
             SaveLog($" Cкачка скриптов закочена");
         }
 

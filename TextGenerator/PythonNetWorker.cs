@@ -28,7 +28,7 @@ namespace TextGenerator
         /// <returns></returns>
         public string GenerateEngText(string text)
         {
-            string path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + @"TextGenerator\Assets\En\";
+            string path = Path.GetTempPath() + @"TextGenerator\Assets\En\";
             SetPaths(path);
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
@@ -57,7 +57,7 @@ namespace TextGenerator
         /// <param name="pathPythonFolder"> сюда нужно передать путь до папки в которой хранится скрипт</param>
         /// <returns></returns>
         public string GenerateRusText(string text) {
-            string path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + @"TextGenerator\Assets\Ru\";
+            string path = Path.GetTempPath() + @"TextGenerator\Assets\Ru\";
             SetPaths(path); // сюда нужно передать путь до папки со скриптом
             
             using (Py.GIL()) 
