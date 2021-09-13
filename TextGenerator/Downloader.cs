@@ -51,22 +51,28 @@ namespace TextGenerator
             return result;
         }
 
-        public void CreateDirectories()
+        public bool CreateDirectories()
         {
             string baseFolder = _path + "TextGenerator\\";
-            CreateDirectory(baseFolder);
+            if (CreateDirectory(baseFolder) == false) return false ;
 
             string assetsPath = baseFolder + "Assets\\";
-            CreateDirectory(assetsPath);
+            if (CreateDirectory(assetsPath) == false) return false;
+            
 
             string enScripts = assetsPath + "En\\";
-            CreateDirectory(enScripts);
+            if (CreateDirectory(enScripts) == false) return false;
+            
 
             string ruScripts = assetsPath + "Ru\\";
-            CreateDirectory(ruScripts);
+            if (CreateDirectory(ruScripts) == false) return false;
+            
 
             string GPT2path = enScripts + "GPT2\\";
-            CreateDirectory(GPT2path);
+            if (CreateDirectory(GPT2path) == false) return false;
+
+
+            return true;
         }
 
         public bool CreateDirectory(string path) {
@@ -91,9 +97,11 @@ namespace TextGenerator
         }
 
 
-        public void DownloadPackages()
+        public bool DownloadPackages()
         {
-            CreateDirectories();
+
+
+            if (CreateDirectories() == false) return false;
 
             SaveLog("скачка зависимостей начата", log.info);
 
@@ -130,6 +138,7 @@ namespace TextGenerator
 
             SaveLog("скачка зависимостей закончена", log.info);
 
+            return true;
 
 
         }
@@ -185,7 +194,7 @@ namespace TextGenerator
             string GPT2path = pathEngScripts + "GPT2\\";
             string pathRuScripts = pathScripts + "Ru\\";
 
-            CreateDirectories();
+            
 
             SaveLog($" Cкачка скриптов начата", log.info);
             DownloadRusScripts(pathRuScripts);
