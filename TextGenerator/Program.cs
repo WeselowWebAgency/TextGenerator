@@ -103,7 +103,7 @@ namespace TextGenerator
             }
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в число { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
             }
             return rez;
         }
@@ -117,7 +117,7 @@ namespace TextGenerator
             
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в дробное число { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
             }
             return rez;
 
@@ -131,7 +131,7 @@ namespace TextGenerator
             }
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в булевое значение { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
                 rez = !rez;
             }
             return rez;
