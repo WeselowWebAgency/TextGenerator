@@ -83,7 +83,6 @@ namespace TextGenerator
                 {
                     SaveLog($"Ошибка при создании папке путь {path}. ошикба {ex.Message}", log.error);
                     rez = false;
-
                 }
             }
             else return true;
