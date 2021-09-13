@@ -67,7 +67,7 @@ namespace TextGenerator
                 {
                     dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
                     dynamic setParams = sampleModule.SetParams(/*length =*/ parametres.Length, /*temperature =*/ parametres.Temperature, /*k = */  parametres.K, /*p*/ parametres.P, /*repetition_penalty*/ parametres.RepetitionPenalty  , /*num_return_sequences*/  parametres.NumReturnSequences); // вызов метода из скрипта
-                    dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
+                    dynamic result = sampleModule.paraphrase_and_expand_text(text, parametres.paraphrase, parametres.expand); // вызов метода из скрипта
                     return result;
                 }
                 catch (PythonException error)
