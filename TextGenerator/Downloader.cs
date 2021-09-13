@@ -34,7 +34,7 @@ namespace TextGenerator
             _project = project;
         }
 
-        private string StartProcess(ProcessStartInfo processInfo, string text)
+        private string StartProcess(ProcessStartInfo processInfo)
         {
             string result;
             using (Process process = Process.Start(processInfo))
@@ -64,9 +64,6 @@ namespace TextGenerator
 
             string ruScripts = assetsPath + "Ru\\";
             if (Directory.Exists(ruScripts)) Directory.CreateDirectory(ruScripts);
-
-
-
             SaveLog("скачка зависимостей начата");
 
             SaveLog("проверка обновления pip");
@@ -137,13 +134,13 @@ namespace TextGenerator
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.WorkingDirectory = WorkingDirectory;
-            return StartProcess(start, arg);
+            return StartProcess(start);
         }
 
         public void SaveLog(string text)
         {
             if (_project != null) _project.SendInfoToLog(text);
-             Console.WriteLine(text);
+            Console.WriteLine(text);
         }
 
         public void SaveScripts()
