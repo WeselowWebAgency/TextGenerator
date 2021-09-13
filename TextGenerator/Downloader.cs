@@ -49,10 +49,7 @@ namespace TextGenerator
             return result;
         }
 
-
-
-        public void DownloadPackages()
-        {
+        public void CreateDirectories() {
             string baseFolder = _path + "TextGenerator\\";
             if (Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
 
@@ -64,6 +61,15 @@ namespace TextGenerator
 
             string ruScripts = assetsPath + "Ru\\";
             if (Directory.Exists(ruScripts)) Directory.CreateDirectory(ruScripts);
+
+            string GPT2path = enScripts + "GPT2\\";
+            if (!Directory.Exists(GPT2path)) Directory.CreateDirectory(GPT2path);
+        }
+
+        public void DownloadPackages()
+        {
+            CreateDirectories();
+
             SaveLog("скачка зависимостей начата");
 
             SaveLog("проверка обновления pip");
@@ -147,18 +153,11 @@ namespace TextGenerator
         {
 
             string pathScripts = _path + "TextGenerator\\Assets\\";
-            if (!Directory.Exists(pathScripts)) Directory.CreateDirectory(pathScripts);
-
-
             string pathEngScripts = pathScripts + "En\\";
-            if (!Directory.Exists(pathEngScripts)) Directory.CreateDirectory(pathEngScripts);
-
             string GPT2path = pathEngScripts + "GPT2\\";
-            if (!Directory.Exists(GPT2path)) Directory.CreateDirectory(GPT2path);
-
             string pathRuScripts = pathScripts + "Ru\\";
-            if (!Directory.Exists(pathRuScripts)) Directory.CreateDirectory(pathRuScripts);
-
+            
+            CreateDirectories();
 
             SaveLog($" Cкачка скриптов начата");
             DownloadRusScript(pathRuScripts);
