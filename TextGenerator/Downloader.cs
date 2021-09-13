@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using ZennoLab.InterfacesLibrary.ProjectModel;
 
 namespace TextGenerator
 {
@@ -28,6 +28,7 @@ namespace TextGenerator
 
         public Downloader(IZennoPosterProjectModel project, string pythonPath)
         {
+            _pythonPath = pythonPath;
             _project = project;
         }
 
@@ -94,7 +95,7 @@ namespace TextGenerator
         {
             if (!File.Exists(path + @"TextGenerator\Assets\En\gpt2-pytorch_model.bin"))
             {
-                //if ( SaveLog != null)  SaveLog("скачка моделей начата");
+                SaveLog("скачка моделей начата");
 
                 try
                 {
@@ -126,11 +127,8 @@ namespace TextGenerator
 
         public void SaveLog(string text)
         {
-            (_project != null) _project.SendInfoToLog(text);
-
-
-
-
+            if (_project != null) _project.SendInfoToLog(text);
+            else Console.WriteLine(text);
         }
 
         public void SaveScripts()
@@ -156,8 +154,6 @@ namespace TextGenerator
             DownloadGPT2(GPT2path);
             DownloadFile("requirements.txt", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt", path + "TextGenerator\\");
             SaveLog($" Cкачка скриптов закочена");
-
-
         }
 
         private void DownloadRusScript(string path)
@@ -197,8 +193,8 @@ namespace TextGenerator
             {
                 if (!File.Exists(savePath + fileName))
                 {
-                    string downloadText = _webClient.DownloadString(url);
-                    File.WriteAllText(savePath + fileName, downloadText);
+                    _webClient.DownloadFile(url, savePath + fileName);
+                    
                     SaveLog($"файл {fileName} скачан");
                 }
             }
