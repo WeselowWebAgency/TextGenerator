@@ -55,7 +55,6 @@ namespace TextGenerator
             //worker.DownloadPackages(path);
             if (worker.CreateDirectories() == true)
             {
-
                 worker.SaveScripts();
                 worker.DownloadPackages();
                 worker.DownloadModels();
@@ -92,18 +91,6 @@ namespace TextGenerator
             par.RepetitionPenalty = ConvertToDouble(project.Variables["RepetitionPenalty"].Value, par.RepetitionPenalty);
             par.paraphrase = ConvertToBool(project.Variables["paraphrase"].Value, par.paraphrase);
             par.expand = ConvertToBool(project.Variables["expand"].Value, par.expand);
-
-
-
-
-
-
-
-
-
-
-            
-
             return par;
 
         }
@@ -142,18 +129,13 @@ namespace TextGenerator
             {
                 rez = string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defoultValue;
             }
-
             catch (Exception ex)
             {
                 _project.SendErrorToLog($"Ошибка при конвертации { ex.Message}");
                 rez = !rez;
             }
             return rez;
-
-
         }
-
-
     }
 
 
