@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TextGenerator.Models
 {
-    public enum log { 
-    info,
-    error
-    
+    public enum LogType
+    {
+        Info,
+        Error,
+        Warning
     }
 }

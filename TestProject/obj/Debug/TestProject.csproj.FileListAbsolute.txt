@@ -130,3 +130,7 @@ C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debu
 C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\ru\DevExpress.XtraEditors.v18.2.resources.dll
 C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\ru\DevExpress.XtraGrid.v18.2.resources.dll
 C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\ru\DevExpress.XtraTreeList.v18.2.resources.dll
+D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.AssemblyReference.cache
+D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
+D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.exe
+D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.pdb

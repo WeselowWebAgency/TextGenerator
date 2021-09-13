@@ -22,7 +22,7 @@ namespace TestProject
 
             string path = @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TextGenerator\";
             //worker.DownloadPackages(path);
-            if (worker.CreateDirectories() == true) {
+            if (worker.CreateDirectories()) {
                 
                 worker.SaveScripts();
                 worker.DownloadPackages();

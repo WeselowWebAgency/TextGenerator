@@ -21,119 +21,279 @@ namespace TextGenerator
     /// </summary>
     public class Program : IZennoExternalCode
     {
+        private IZennoPosterProjectModel _project;
+        private string Text { get; set; }
+
+
         /// <summary>
         /// Метод для запуска выполнения скрипта
         /// </summary>
         /// <param name="instance">Объект инстанса выделеный для данного скрипта</param>
         /// <param name="project">Объект проекта выделеный для данного скрипта</param>
         /// <returns>Код выполнения скрипта</returns>		
-        /// 
-
-        IZennoPosterProjectModel _project;
         public int Execute(Instance instance, IZennoPosterProjectModel project)
         {
-            int executionResult = 0;
             _project = project;
+            Logger.Project = project;
+
+            //получаем текст для работы и помещаем его в Text
+            if (!GetTask(project.Variables["file_input"].Value)) return 1;
+
+            //проверяем язык
+            string language = project.Variables["language"].Value.ToLower();
+            if (language != "rus" && language != "eng") return 1;
             
-            string PathFile = project.Variables["pathFile"].Value;
-            string text = File.ReadAllText(PathFile);
+            //проверяем путь к питону
+            string pythonPath = ValidatePythonPath(project.Variables["PythonPath"].Value)
+                ? project.Variables["PythonPath"].Value
+                : "";
+            if (string.IsNullOrEmpty(pythonPath)) return 1;
 
-            string language = project.Variables["language"].Value;
-            string pathFileRezult = project.Variables["pathFileRezult"].Value;
+            PythonNetWorker pythonNet = new PythonNetWorker(pythonPath, "python37.dll");
+            Downloader worker = new Downloader(pythonPath);
 
-
-            string pythonPath = project.Variables["PythonPath"].Value;
-            PythonNetWorker PythonNet = new PythonNetWorker(pythonPath, "python37.dll");
+            //скачиваем зависимости
+            if (!worker.CreateDirectories() || !worker.SaveScripts()
+                || !worker.DownloadPackages() || !worker.DownloadModels()) 
+                return 1;
 
 
             string rez = "";
-
-
-            Downloader worker = new Downloader(@"C:\Python37");
-
-            string path = @"C:\Users\Admin\Desktop\нейросетка\TextGenerator2\TextGenerator\";
-            //worker.DownloadPackages(path);
-            if (worker.CreateDirectories() == true)
-            {
-                worker.SaveScripts();
-                worker.DownloadPackages();
-                worker.DownloadModels();
-            }
-
             switch (language)
             {
                 case "rus":
-                    rez = PythonNet.GenerateRusText(text, SetParams(project));
-                    File.WriteAllText(pathFileRezult, rez);
+                    rez = pythonNet.GenerateRusText(Text, SetParams(project));
                     break;
 
                 case "eng":
-                    rez = PythonNet.GenerateEngText(text, SetParams(project));
-                    File.WriteAllText(pathFileRezult, rez);
+                    rez = pythonNet.GenerateEngText(Text, SetParams(project));
                     break;
-                default:
 
+                default:
                     break;
             }
 
+            var executionResult = SaveResult(rez) & SaveToVariable("textResult", rez)
+                ? 0     //все удачно
+                : 1;
 
             return executionResult;
         }
-        public TextParams SetParams(IZennoPosterProjectModel project)
+
+        private bool ValidatePythonPath(string path)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(path)) return false;
+
+                path = Path.Combine(path, "python.exe");
+                if (!File.Exists(path))
+                {
+                    Logger.SaveLog($"Не найден установленный {path}", LogType.Error);
+                    return false;
+                }
+                else
+                {
+                    Logger.SaveLog($"Python найден - {path}", LogType.Info);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.SaveLog($"Не найден установленный {path} - {e.Message}", LogType.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool GetTask(string pathFile)
+        {
+            if (string.IsNullOrEmpty(pathFile))
+            {
+                Logger.SaveLog("Переменная pathFile пуста.", LogType.Error);
+                return false;
+            }
+
+            if (!File.Exists(pathFile))
+            {
+                Logger.SaveLog($"Файл {pathFile} не существует.", LogType.Error);
+                return false;
+            }
+
+            try
+            {
+                Text = File.ReadAllText(pathFile);
+                if (Text.Length > 4)
+                {
+                    int len = Text.Length > 10 ? 10 : Text.Length;
+                    Logger.SaveLog($"Задание из файла {pathFile} прочитано успешно - {Text.Substring(0, len)} ...",
+                            LogType.Warning);
+                }
+                else
+                {
+                    Logger.SaveLog($"Задание из файла {pathFile} прочитано успешно, но оно короче 5 символов - {Text.Substring(0, 5)} ...", LogType.Error);
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.SaveLog($"Не смогли прочитать задание из файла {pathFile} - {e.Message} ...", LogType.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool SaveResult(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return false;
+            string filepath = _project.Variables["file_output"].Value;
+
+            if (string.IsNullOrEmpty(filepath) || !filepath.Contains(":"))
+            {
+                //пусть пустой, используем по-умолчанию
+                try
+                {
+                    string dir = Path.Combine(_project.Directory, "output");
+                    filepath = Path.Combine(_project.Directory, "output", Path.GetFileName(_project.Variables["file_input"].Value));
+                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                    Logger.SaveLog("Успешно создана директория output в папке проекта.", LogType.Info);
+                }
+                catch (Exception e)
+                {
+                    Logger.SaveLog($"Не смогли создать директорию output в папке проекта - {e.Message}.", LogType.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                //путь не пустой, проверяем директорию на существование.
+                try
+                {
+                    string dir = Path.GetDirectoryName(filepath);
+                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                    Logger.SaveLog($"Успешно создана директория {dir}.", LogType.Info);
+                }
+                catch (Exception e)
+                {
+                    Logger.SaveLog($"Не смогли создать директорию для выходного файла - {e.Message}.", LogType.Error);
+                    return false;
+                }
+            }
+
+            //пробуем сохранить
+            try
+            {
+                File.WriteAllText(filepath, text);
+                Logger.SaveLog($"Текст успешно сохранен в файл {filepath}.", LogType.Warning);
+            }
+            catch (Exception e)
+            {
+                Logger.SaveLog($"Ошибка при сохранении текста в файл {filepath} - {e.Message}.", LogType.Warning);
+                return false;
+            }
+
+
+            return true;
+        }
+        private bool SaveToVariable(string variableName, string text)
+        {
+            //проверяем существование переменной, если нет то создаем новую
+            if (_project.Variables.Keys.Contains(variableName))
+            {
+                _project.Variables[variableName].Value = text;
+            }
+            else
+            {
+                try
+                {
+                    object obj = _project.Variables;
+                    obj.GetType()?.GetMethod("QuickCreateVariable")?.Invoke(obj, new Object[] { variableName });
+                    _project.Variables[variableName].Value = text;
+                    Logger.SaveLog($"Сохранили результат в переменную {variableName}", LogType.Warning);
+                }
+                catch (Exception e)
+                {
+                    Logger.SaveLog($"Не смогли создать переменную {variableName} для сохранения текста - {e.Message}", LogType.Error);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        private TextParams SetParams(IZennoPosterProjectModel project)
         {
             TextParams par = new TextParams();
 
-            par.K = ConvertToInt(project.Variables["K"].Value, par.K);
-            par.P = ConvertToDouble(project.Variables["P"].Value, par.P);
-            par.Length = ConvertToInt(project.Variables["Length"].Value, par.Length);
-            par.NumReturnSequences = ConvertToInt(project.Variables["NumReturnSequences"].Value, par.NumReturnSequences);
-            par.Temperature = ConvertToDouble(project.Variables["Temperature"].Value, par.Temperature);
-            par.RepetitionPenalty = ConvertToDouble(project.Variables["RepetitionPenalty"].Value, par.RepetitionPenalty);
-            par.paraphrase = ConvertToBool(project.Variables["paraphrase"].Value, par.paraphrase);
-            par.expand = ConvertToBool(project.Variables["expand"].Value, par.expand);
+            par.K = ConvertToInt(project.Variables["param_k"].Value, par.K);
+            par.P = ConvertToDouble(project.Variables["param_p"].Value, par.P);
+            par.Length = ConvertToInt(project.Variables["param_length"].Value, par.Length);
+            par.NumReturnSequences = ConvertToInt(project.Variables["param_NumReturnSequences"].Value, par.NumReturnSequences);
+            par.Temperature = ConvertToDouble(project.Variables["param_temperature"].Value, par.Temperature);
+            par.RepetitionPenalty = ConvertToDouble(project.Variables["param_RepetitionPenalty"].Value, par.RepetitionPenalty);
+
+            if (project.Variables["param_ep"].Value.ToLower().Contains("true"))
+            {
+                par.Paraphrase = true;
+                par.Expand = true;
+            }
+            else
+            {
+                par.Paraphrase = ConvertToBool(project.Variables["param_paraphrase"].Value, par.Paraphrase);
+                par.Expand = ConvertToBool(project.Variables["param_expand"].Value, par.Expand);
+            }
+            
             return par;
-
         }
-
-        private int ConvertToInt(string value,int defaultValue) {
+        private int ConvertToInt(string value, int defaultValue)
+        {
             int rez = 0;
             try
             {
-                rez = !string.IsNullOrEmpty(value) ? Convert.ToInt32(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value)
+                    ? Convert.ToInt32(value.Trim())
+                    : defaultValue;
             }
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации {value} в число { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в число - {ex.Message}. Будет использовано значение по умолчанию {defaultValue}");
+                rez = defaultValue;
             }
+
             return rez;
         }
-
-        private Double ConvertToDouble(string value, double defaultValue) {
+        private Double ConvertToDouble(string value, double defaultValue)
+        {
             double rez = 0;
+            if (value.Contains(".")) value = value.Replace(".", ",");
             try
             {
-                rez = !string.IsNullOrEmpty(value) ? Convert.ToDouble(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value)
+                    ? Convert.ToDouble(value.Trim())
+                    : defaultValue;
             }
-            
+
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации {value} в дробное число { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в дробное число - {ex.Message}. Будет использовано значение по умолчанию {defaultValue}");
+                rez = defaultValue;
             }
+
             return rez;
-
         }
-
-        public bool ConvertToBool(string value, bool defaultValue) {
-            bool rez = true; ;
+        private bool ConvertToBool(string value, bool defaultValue)
+        {
+            bool rez;
             try
             {
-                rez = !string.IsNullOrEmpty(value) ? Convert.ToBoolean(_project.Variables["k"].Value.Trim()) : defaultValue;
+                rez = !string.IsNullOrEmpty(value)
+                    ? Convert.ToBoolean(value.Trim())
+                    : defaultValue;
             }
             catch (Exception ex)
             {
-                _project.SendErrorToLog($"Ошибка при конвертации {value} в булевое значение { ex.Message} ,будет использовано значение по умолчанию {defaultValue}");
-                rez = !rez;
+                _project.SendErrorToLog($"Ошибка при конвертации {value} в bool - {ex.Message}. Будет использовано значение по умолчанию {defaultValue}");
+                rez = defaultValue;
             }
+
             return rez;
         }
     }

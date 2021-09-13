@@ -14,9 +14,8 @@ namespace TextGenerator.Models
         public double P { get; set; } = 0.9;
         public double RepetitionPenalty { get; set; } = 1.0;
         public int NumReturnSequences { get; set; } = 1;
-
-        public bool paraphrase { get; set; } = false;
-        public bool expand { get; set; } = false;
+        public bool Paraphrase { get; set; } = true;
+        public bool Expand { get; set; } = true;
 
     }
 }
