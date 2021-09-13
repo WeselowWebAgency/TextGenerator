@@ -125,7 +125,7 @@ namespace TextGenerator
             }
 
             try {
-                par.paraphrase = string.IsNullOrEmpty(project.Variables["paraphrase"].Value.Trim()) ? Convert.ToBoolean(project.Variables["paraphrase"].Value) : par.paraphrase
+                par.paraphrase = string.IsNullOrEmpty(project.Variables["paraphrase"].Value.Trim()) ? Convert.ToBoolean(project.Variables["paraphrase"].Value) : par.paraphrase;
             }
             catch (Exception ex) {
                 project.SendErrorToLog($"Ошибка при конвертации { ex.Message}";
