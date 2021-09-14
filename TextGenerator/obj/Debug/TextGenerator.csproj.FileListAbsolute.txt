@@ -52,3 +52,7 @@ d:\Repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\TextGenerator.dl
 d:\Repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\System.Security.AccessControl.xml
 d:\Repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\System.Security.Permissions.xml
 d:\Repos\WeselowWebAgency\TextGenerator\TextGenerator\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\TextGenerator.dll.config
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.AccessControl.xml
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.Permissions.xml
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TextGenerator\bin\Debug\System.Security.Principal.Windows.xml

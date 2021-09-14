@@ -134,3 +134,4 @@ D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj
 D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
 D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.exe
 D:\Repos\WeselowWebAgency\TextGenerator\TestProject\obj\Debug\TestProject.pdb
+C:\Users\Admin\Source\Repos\WeselowWebAgency\TextGenerator2\TestProject\bin\Debug\TextGenerator.dll.config
