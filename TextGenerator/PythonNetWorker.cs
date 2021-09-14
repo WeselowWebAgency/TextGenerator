@@ -36,9 +36,6 @@ namespace TextGenerator
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
             {
-
-                File.WriteAllText("1.txt", $" Length {textParams.Length} Temperature {textParams.Temperature} K {textParams.K}");
-
                 try
                 {
                     Logger.SaveLog("Запускаем En-генератор ...", LogType.Info);

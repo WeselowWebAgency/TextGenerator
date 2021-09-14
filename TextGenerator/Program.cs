@@ -75,7 +75,6 @@ namespace TextGenerator
                 default:
                     break;
             }
-
             var executionResult = SaveResult(rez) && SaveToVariable("textResult", rez)
                 ? 0     //все удачно
                 : 1;
