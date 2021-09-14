@@ -116,8 +116,8 @@ namespace TextGenerator
             {
                 Logger.SaveLog("Проверка обновления pip ...", LogType.Info);
                 workingDirectory = $"{_pythonPath}\\Scripts";
-                argument = "install --upgrade pip";
-                rezultProcess = StartProccess(argument, workingDirectory);
+                argument = "-m pip install --upgrade pip";
+                rezultProcess = StartProccess(argument, workingDirectory, @"\python.exe");
                 Logger.SaveLog($"Проверка обновления pip закончена. Результат: {rezultProcess}", LogType.Info);
             }
             catch (Exception e)

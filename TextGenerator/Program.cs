@@ -287,7 +287,7 @@ namespace TextGenerator
                 rez = !string.IsNullOrEmpty(value)
                     ? Convert.ToBoolean(value.Trim())
                     : defaultValue;
-            }
+            } 
             catch (Exception ex)
             {
                 _project.SendErrorToLog($"Ошибка при конвертации {value} в bool - {ex.Message}. Будет использовано значение по умолчанию {defaultValue}");
