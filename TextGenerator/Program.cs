@@ -57,8 +57,9 @@ namespace TextGenerator
             if (!worker.CreateDirectories() || !worker.SaveScripts()
                 || !worker.DownloadPackages() || !worker.DownloadModels()) 
                 return 1;
+            
             var par = SetParams(project);
-           
+            if (par.Length > 512) par.Length = 512;
 
             string rez = "";
             switch (language)
@@ -104,7 +105,6 @@ namespace TextGenerator
                 Logger.SaveLog($"Не найден установленный {path} - {e.Message}", LogType.Error);
                 return false;
             }
-
             return true;
         }
         private bool GetTask(string pathFile)
