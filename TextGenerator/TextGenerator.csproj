@@ -146,10 +146,9 @@
     <Content Include="Assets\En\GPT2\utils.py" />
     <Content Include="Assets\En\GPT2\__init__.py.txt" />
     <Content Include="Assets\En\main.py" />
-    <Content Include="Assets\En\requirements.txt" />
     <Content Include="Assets\Ru\generateModelParams.py" />
-    <Content Include="Assets\Ru\requirements.txt" />
     <Content Include="Assets\Ru\text_expansion.py" />
+    <Content Include="requirements.txt" />
     <Content Include="Resources\writer_person_people_man_you_1633.ico" />
   </ItemGroup>
   <ItemGroup />
