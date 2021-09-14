@@ -116,7 +116,7 @@ namespace TextGenerator
             {
                 Logger.SaveLog("Проверка обновления pip ...", LogType.Info);
                 workingDirectory = $"{_pythonPath}\\Scripts";
-                argument = "-m pip install --upgrade pip";
+                argument = "install --upgrade pip";
                 rezultProcess = StartProccess(argument, workingDirectory);
                 Logger.SaveLog($"Проверка обновления pip закончена. Результат: {rezultProcess}", LogType.Info);
             }
@@ -235,7 +235,7 @@ namespace TextGenerator
             }
 
             if (!DownloadFile("requirements.txt",
-                "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/requirements.txt",
+                "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt",
                 _path + "TextGenerator\\")
             )
             {
