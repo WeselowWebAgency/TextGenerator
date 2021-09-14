@@ -48,7 +48,7 @@ namespace TextGenerator
                 {
                     result = reader.ReadToEnd();
                     Console.Write(result);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3*1000);
                 }
             }
             return result;
@@ -308,14 +308,14 @@ namespace TextGenerator
         {
             try
             {
-                if (File.Exists(savePath + fileName)) return true;
+                if (File.Exists(Path.Combine(savePath, fileName))) return true;
 
-                _webClient.DownloadFile(url, savePath + fileName);
+                _webClient.DownloadFile(url, Path.Combine(savePath, fileName));
                 Logger.SaveLog($"Файл {fileName.Substring(0, 3)}...{fileName.Substring(fileName.Length - 1)} скачан успешно.", LogType.Info);
             }
             catch (Exception ex)
             {
-                Logger.SaveLog($"Ошибка при скачке файла  {fileName.Substring(0, 3)}...{fileName.Substring(fileName.Length - 1)} - {ex.Message}", LogType.Error);
+                Logger.SaveLog($"Ошибка при скачке файла {fileName.Substring(0, 3)}...{fileName.Substring(fileName.Length - 1)} - {ex.Message}", LogType.Error);
                 return false;
             }
 

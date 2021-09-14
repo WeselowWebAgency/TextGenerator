@@ -42,7 +42,7 @@ namespace TextGenerator
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
                     dynamic results = sampleModule.text_generator(
                         text, 
-                        path, 
+                        path + "\\", 
                         /*length*/ textParams.Length,
                         /*temperature*/ textParams.Temperature,
                         /*top_k*/  textParams.K,
