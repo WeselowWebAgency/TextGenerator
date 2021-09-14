@@ -11,14 +11,14 @@ namespace TextGenerator
 {
     public class PythonNetWorker
     {
-         
-        private readonly string _pathToPythonDirectory;
+
+        private string PathToPythonDirectory { get; set; }
 
         public PythonNetWorker(string pathToPythonDirectory, string namePythonDll)
         {
-            pathToPythonDirectory += '\\';
+            //pathToPythonDirectory += '\\';
             Runtime.PythonDLL = Path.Combine(pathToPythonDirectory, namePythonDll);
-            _pathToPythonDirectory = pathToPythonDirectory;
+            PathToPythonDirectory = pathToPythonDirectory;
         }
 
 
@@ -99,22 +99,21 @@ namespace TextGenerator
             }
         }
 
-        private void SetPaths(string pathPythonFolder)
+        private void SetPaths(string pathMyScriptsFolder)
         {
             // Setup all paths before initializing Python engine
-            string pathToPython = _pathToPythonDirectory;
-            string path = pathToPython + ";" +
-                          Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            string pathToPython = PathToPythonDirectory;
+            string path = pathToPython + ";" + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
             Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+
             Environment.SetEnvironmentVariable("PYTHONHOME", pathToPython, EnvironmentVariableTarget.Process);
 
             var lib = new[]
             {
-                pathPythonFolder,
+                pathMyScriptsFolder,
                 Path.Combine(pathToPython, "Lib"),
                 Path.Combine(pathToPython, "DLLs")
             };
-
             string paths = string.Join(";", lib);
             Environment.SetEnvironmentVariable("PYTHONPATH", paths, EnvironmentVariableTarget.Process);
 

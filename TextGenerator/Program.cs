@@ -47,17 +47,31 @@ namespace TextGenerator
             string pythonPath = ValidatePythonPath(project.Variables["PythonPath"].Value)
                 ? project.Variables["PythonPath"].Value
                 : "";
-           
+
             if (string.IsNullOrEmpty(pythonPath)) return 1;
 
             PythonNetWorker pythonNet = new PythonNetWorker(pythonPath, "python37.dll");
             Downloader worker = new Downloader(pythonPath);
 
             //скачиваем зависимости
-            if (!worker.CreateDirectories() || !worker.SaveScripts()
-                || !worker.DownloadPackages() || !worker.DownloadModels()) 
-                return 1;
-            
+            switch (_project.Variables["param_depends"].Value)
+            {
+                case "startup":
+                    if (!worker.CreateDirectories() || !worker.SaveScripts()
+                        || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
+                    _project.Variables["param_depends"].Value = "no_check";
+                    break;
+                case "run":
+                    if (!worker.CreateDirectories() || !worker.SaveScripts()
+                        || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
+                    break;
+                case "no_check":
+                    break;
+                default:
+                    break;
+            }
+
+
             var par = SetParams(project);
 
             string rez = "";
@@ -74,7 +88,7 @@ namespace TextGenerator
                 default:
                     break;
             }
-            var executionResult = SaveResult(rez) && SaveToVariable("textResult", rez)
+            var executionResult = SaveResult(rez) /* & SaveToVariable("textResult", rez) */
                 ? 0     //все удачно
                 : 1;
 
@@ -191,30 +205,31 @@ namespace TextGenerator
                 return false;
             }
 
-
             return true;
         }
-        private bool SaveToVariable(string variableName, string text)
+        private bool SaveToVariable(string variableName = "textResult", string text = "")
         {
             //проверяем существование переменной, если нет то создаем новую
-            if (_project.Variables.Keys.Contains(variableName))
+            try
             {
                 _project.Variables[variableName].Value = text;
-            }
-            else
-            {
-                try
+                /*
+                if (_project.Variables.Keys.Contains(variableName))
+                {
+                    _project.Variables[variableName].Value = text;
+                }
+                else
                 {
                     object obj = _project.Variables;
-                    obj.GetType()?.GetMethod("QuickCreateVariable")?.Invoke(obj, new Object[] { variableName });
+                    obj.GetType().GetMethod("QuickCreateVariable").Invoke(obj, new Object[] { variableName });
                     _project.Variables[variableName].Value = text;
                     Logger.SaveLog($"Сохранили результат в переменную {variableName}", LogType.Warning);
-                }
-                catch (Exception e)
-                {
-                    Logger.SaveLog($"Не смогли создать переменную {variableName} для сохранения текста - {e.Message}", LogType.Error);
-                    return false;
-                }
+                }*/
+            }
+            catch (Exception e)
+            {
+                Logger.SaveLog($"Не смогли создать переменную {variableName} для сохранения текста - {e.Message}", LogType.Error);
+                return false;
             }
 
             return true;
@@ -226,7 +241,7 @@ namespace TextGenerator
             par.K = ConvertToInt(project.Variables["param_k"].Value, par.K);
             par.P = ConvertToDouble(project.Variables["param_p"].Value, par.P);
 
-            par.Length = ConvertToInt(project.Variables["param_length"].Value, par.Length) > 512 
+            par.Length = ConvertToInt(project.Variables["param_length"].Value, par.Length) > 512
                 ? 512
                 : ConvertToInt(project.Variables["param_length"].Value, par.Length);
 
@@ -244,7 +259,7 @@ namespace TextGenerator
                 par.Paraphrase = ConvertToBool(project.Variables["param_paraphrase"].Value, par.Paraphrase);
                 par.Expand = ConvertToBool(project.Variables["param_expand"].Value, par.Expand);
             }
-            
+
             return par;
         }
         private int ConvertToInt(string value, int defaultValue)
@@ -291,7 +306,7 @@ namespace TextGenerator
                 rez = !string.IsNullOrEmpty(value)
                     ? Convert.ToBoolean(value.Trim())
                     : defaultValue;
-            } 
+            }
             catch (Exception ex)
             {
                 _project.SendErrorToLog($"Ошибка при конвертации {value} в bool - {ex.Message}. Будет использовано значение по умолчанию {defaultValue}");
@@ -301,6 +316,4 @@ namespace TextGenerator
             return rez;
         }
     }
-
-
 }
