@@ -59,7 +59,6 @@ namespace TextGenerator
                 return 1;
             
             var par = SetParams(project);
-            if (par.Length > 512) par.Length = 512;
 
             string rez = "";
             switch (language)
@@ -226,7 +225,11 @@ namespace TextGenerator
 
             par.K = ConvertToInt(project.Variables["param_k"].Value, par.K);
             par.P = ConvertToDouble(project.Variables["param_p"].Value, par.P);
-            par.Length = ConvertToInt(project.Variables["param_length"].Value, par.Length);
+
+            par.Length = ConvertToInt(project.Variables["param_length"].Value, par.Length) > 512 
+                ? 512
+                : ConvertToInt(project.Variables["param_length"].Value, par.Length);
+
             par.NumReturnSequences = ConvertToInt(project.Variables["param_NumReturnSequences"].Value, par.NumReturnSequences);
             par.Temperature = ConvertToDouble(project.Variables["param_temperature"].Value, par.Temperature);
             par.RepetitionPenalty = ConvertToDouble(project.Variables["param_RepetitionPenalty"].Value, par.RepetitionPenalty);
