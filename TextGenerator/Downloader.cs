@@ -235,7 +235,7 @@ namespace TextGenerator
             }
 
             if (!DownloadFile("requirements.txt",
-                "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/requirements.txt",
+                "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/requirements.txt",
                 _path + "TextGenerator\\")
             )
             {
@@ -251,8 +251,8 @@ namespace TextGenerator
         {
             Dictionary<string, string> rusScripts = new Dictionary<string, string>
             {
-                { "generateModelParams.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/generateModelParams.py" },
-                { "text_expansion.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/Ru/text_expansion.py" }
+                { "generateModelParams.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/Ru/generateModelParams.py" },
+                { "text_expansion.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/Ru/text_expansion.py" }
             };
 
             foreach (var item in rusScripts)
@@ -266,7 +266,7 @@ namespace TextGenerator
         private bool DownloadEngScripts(string path)
         {
             Dictionary<string, string> engScripts = new Dictionary<string, string>();
-            engScripts.Add("main.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/main.py");
+            engScripts.Add("main.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/main.py");
             foreach (var item in engScripts)
             {
                 if (!DownloadFile(item.Key, item.Value, path)) return false;
@@ -281,19 +281,21 @@ namespace TextGenerator
             {
                 {
                     "__init__.py.txt",
-                    "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/__init__.py.txt"
+                    "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/__init__.py.txt"
                 },
                 {
                     "config.n_ctx",
-                    "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/config.n_ctx"
+                    "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/config.n_ctx"
                 },
-                { "config.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/config.py" },
-                { "encoder.json", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/encoder.json" },
-                { "encoder.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/encoder.py" },
-                { "model.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/model.py" },
-                { "sample.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/sample.py" },
-                { "utils.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/utils.py" },
-                { "vocab.bpe", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/fork2/TextGenerator/Assets/En/GPT2/vocab.bpe" }
+                { "config.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/config.py" },
+                                 
+                { "encoder.json", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/encoder.json" },
+                { "encoder.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/encoder.py" },
+                { "model.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/model.py" },
+                { "sample.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/sample.py" },
+                { "utils.py", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/utils.py" },
+                              
+                { "vocab.bpe", "https://raw.githubusercontent.com/WeselowWebAgency/TextGenerator/main/TextGenerator/Assets/En/GPT2/vocab.bpe" }
             };
 
             foreach (var item in filesGpt2)
