@@ -1,7 +1,5 @@
-
 import os
 import sys
-
 from typing import Text
 import torch
 import random
@@ -10,32 +8,17 @@ import numpy as np
 import clr
 clr.AddReference("System.Windows.Forms")
 
-
-
-
-
-
 from GPT2.model import (GPT2LMHeadModel) 
 from GPT2.utils import load_weight
 from GPT2.config import GPT2Config
 from GPT2.sample import sample_sequence
 from GPT2.encoder import get_encoder
 
-
-
-
 baseDirectory = ""
-
-
-
-
-
-
-
 
 def text_generator(text, baseDirectory,length = -1 ,temperature = 0.7,top_k = 40, nsamples = 1  ):
     
-    state_dict = torch.load(baseDirectory + "gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
+    state_dict = torch.load(baseDirectory + "model_en.bin", map_location='cpu' if not torch.cuda.is_available() else None)
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--text", type=str, required=False,default=text)
@@ -101,15 +84,4 @@ def text_generator(text, baseDirectory,length = -1 ,temperature = 0.7,top_k = 40
             
             print(text2)
             return text2
-def Get_state_dict():
-    state_dict = torch.load(baseDirectory + "\\Gpt test\\тест 2\\gpt2-pytorch_model.bin", map_location='cpu' if not torch.cuda.is_available() else None)
-    return state_dict
 
-if __name__ == '__main__':
-    if os.path.exists(baseDirectory +"\\Gpt test\\тест 2\\gpt2-pytorch_model.bin"):
-        
-        Text = '''It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.'''
-        text_generator(Text)
-    else:
-        print('Please download gpt2-pytorch_model.bin')
-        sys.exit()

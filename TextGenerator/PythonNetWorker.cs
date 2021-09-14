@@ -5,51 +5,102 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextGenerator.Models;
 
 namespace TextGenerator
 {
     public class PythonNetWorker
     {
-        private string _namePythonDll;
-        private string _pathToPythonDirectory;
-        
-        public PythonNetWorker(string pathToPythonDirectory,string namePythonDll)
+         
+        private readonly string _pathToPythonDirectory;
+
+        public PythonNetWorker(string pathToPythonDirectory, string namePythonDll)
         {
-            Runtime.PythonDLL = pathToPythonDirectory + namePythonDll;
-            _namePythonDll = namePythonDll;
+            pathToPythonDirectory += '\\';
+            Runtime.PythonDLL = Path.Combine(pathToPythonDirectory, namePythonDll);
             _pathToPythonDirectory = pathToPythonDirectory;
         }
 
+
         /// <summary>
-        /// 
+        /// Генерирует текст на английском языке.
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="directoryScript"> сюда нужно передать путь до папки в которой хранится скрипт</param>
+        /// <param name="textParams"></param>
         /// <returns></returns>
-        public string GenerateEngText(string text, string directoryScript)
+        public string GenerateEngText(string text, TextParams textParams)
         {
-            SetPaths(directoryScript);
+            string path = Path.Combine(Path.GetTempPath(), "TextGenerator","Assets","En");
+
+            SetPaths(path);
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
             {
                 try
                 {
+                    Logger.SaveLog("Запускаем En-генератор ...", LogType.Info);
                     // import your script into the process
                     dynamic sampleModule = Py.Import("main"); // сюда нужно передать название скрипта
-                    dynamic results = sampleModule.text_generator(text, directoryScript, -1, 0.7,  40,  1); // вызов метода из скрипта
+                    dynamic results = sampleModule.text_generator(
+                        text, 
+                        path + "\\", 
+                        /*length*/ textParams.Length,
+                        /*temperature*/ textParams.Temperature,
+                        /*top_k*/  textParams.K,
+                        /*nsamples*/ 1); // вызов метода из скрипта
+                    Logger.SaveLog("En-генератор выполнил задание успешно ...", LogType.Warning);
                     return results;
                 }
                 catch (Exception error)
                 {
                     // Communicate errors with exceptions from within python script -
                     // this works very nice with pythonnet.
-                    Console.WriteLine("Error occured: ", error.Message);
+                    Logger.SaveLog($"En-генератор вызвал ошибку - {error.Message} ...", LogType.Error);
                     return null;
                 }
             }
         }
 
-        private void SetPaths(string pathPythonFolder) {
+        /// <summary>
+        /// Генерирует текст на русском языке.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textParams"></param>
+        /// <returns></returns>
+        public string GenerateRusText(string text, TextParams textParams)
+        {
+            string path = Path.Combine(Path.GetTempPath(), "TextGenerator", "Assets", "Ru");
+            SetPaths(path); // сюда нужно передать путь до папки со скриптом
+
+            using (Py.GIL())
+            {
+                try
+                {
+                    Logger.SaveLog("Запускаем Ru-генератор ...", LogType.Info);
+                    dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
+                    dynamic setParams = sampleModule.SetParams(
+                        /*length =*/ textParams.Length, 
+                        /*temperature =*/ textParams.Temperature,
+                        /*k = */  textParams.K,
+                        /*p*/ textParams.P,
+                        /*repetition_penalty*/ textParams.RepetitionPenalty,
+                        /*num_return_sequences*/  textParams.NumReturnSequences); // вызов метода из скрипта
+                    dynamic result = sampleModule.paraphrase_and_expand_text(text, textParams.Paraphrase, textParams.Expand); // вызов метода из скрипта
+                    Logger.SaveLog("Ru-генератор выполнил задание успешно ...", LogType.Warning);
+                    return result;
+                }
+                catch (PythonException error)
+                {
+                    // Communicate errors with exceptions from within python script -
+                    // this works very nice with pythonnet.
+                    Logger.SaveLog($"Ru-генератор вызвал ошибку - {error.Message} ...", LogType.Error);
+                    return null;
+                }
+            }
+        }
+
+        private void SetPaths(string pathPythonFolder)
+        {
             // Setup all paths before initializing Python engine
             string pathToPython = _pathToPythonDirectory;
             string path = pathToPython + ";" +
@@ -68,35 +119,6 @@ namespace TextGenerator
             Environment.SetEnvironmentVariable("PYTHONPATH", paths, EnvironmentVariableTarget.Process);
 
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="pathPythonFolder"> сюда нужно передать путь до папки в которой хранится скрипт</param>
-        /// <returns></returns>
-        public string GenerateRusText(string text, string pathPythonFolder) {
-            SetPaths(pathPythonFolder); // сюда нужно передать путь до папки со скриптом
-            using (Py.GIL()) 
-            {
-                try
-                {
-                    dynamic sampleModule = Py.Import("text_expansion"); // сюда нужно передать название скрипта
-                    dynamic setParams = sampleModule.SetParams(/*length =*/ 100, /*temperature =*/ 1.0, /*k = */  10, /*p*/  0.9, /*repetition_penalty*/  1.0, /*num_return_sequences*/  1); // вызов метода из скрипта
-                    dynamic result = sampleModule.paraphrase_and_expand_text(text, true, true); // вызов метода из скрипта
-                    return result;
-
-                }
-                catch (PythonException error)
-                {
-                    // Communicate errors with exceptions from within python script -
-                    // this works very nice with pythonnet.
-                    Console.WriteLine("Error occured: ", error);
-                    return null;
-                }
-            }
-
-        }
     }
-       
+
 }
