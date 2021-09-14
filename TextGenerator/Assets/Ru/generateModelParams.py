@@ -1,5 +1,4 @@
-class GenerateModelParams:
-    
+class GenerateModelParams:    
     
     def __init__(self,length, temperature, k, p, repetition_penalty,num_return_sequences) -> None:
         self.max_length=length
@@ -17,9 +16,4 @@ class GenerateModelParams:
         print(self.repetition_penalty)
         print(self.do_sample)
         print(self.num_return_sequences)
-        pass
-    
-    
-    
-        
-    
+        pass    
