@@ -50,9 +50,8 @@
     <ApplicationIcon>Resources\writer_person_people_man_you_1633.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Python.Runtime, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5000fea6cba702dd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TestProject\bin\Debug\Python.Runtime.dll</HintPath>
+    <Reference Include="Python.Runtime">
+      <HintPath>..\packages\pythonnet.3.0.0-preview2021-09-03\lib\netstandard2.0\Python.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
