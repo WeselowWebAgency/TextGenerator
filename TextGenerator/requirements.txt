@@ -9,3 +9,4 @@ regex==2017.4.5
 pandas
 numpy
 torch
+git+https://github.com/andersjo/dependency_decoding 
