@@ -25,12 +25,9 @@ namespace TestProject
             if (worker.CreateDirectories()) {
                 
                 worker.SaveScripts();
-                worker.DownloadPackages();
+                //worker.DownloadPackages();
                 worker.DownloadModels();
             }
-
-            
-            
         }
 
         public static void Generate() {
@@ -41,7 +38,7 @@ namespace TestProject
             PythonNetWorker worker2 = new PythonNetWorker(@"C:\Python37\", "python37.dll");
 
             
-            string rez = worker2.GenerateRusText(rusText, par);
+            string rez = worker2.GenerateEngText(engText, par);
 
         }
     }

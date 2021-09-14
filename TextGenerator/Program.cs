@@ -42,11 +42,12 @@ namespace TextGenerator
             //проверяем язык
             string language = project.Variables["language"].Value.ToLower();
             if (language != "rus" && language != "eng") return 1;
-            
+
             //проверяем путь к питону
             string pythonPath = ValidatePythonPath(project.Variables["PythonPath"].Value)
                 ? project.Variables["PythonPath"].Value
                 : "";
+           
             if (string.IsNullOrEmpty(pythonPath)) return 1;
 
             PythonNetWorker pythonNet = new PythonNetWorker(pythonPath, "python37.dll");
@@ -56,17 +57,18 @@ namespace TextGenerator
             if (!worker.CreateDirectories() || !worker.SaveScripts()
                 || !worker.DownloadPackages() || !worker.DownloadModels()) 
                 return 1;
-
+            var par = SetParams(project);
+           
 
             string rez = "";
             switch (language)
             {
                 case "rus":
-                    rez = pythonNet.GenerateRusText(Text, SetParams(project));
+                    rez = pythonNet.GenerateRusText(Text, par);
                     break;
 
                 case "eng":
-                    rez = pythonNet.GenerateEngText(Text, SetParams(project));
+                    rez = pythonNet.GenerateEngText(Text, par);
                     break;
 
                 default:

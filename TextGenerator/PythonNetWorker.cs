@@ -16,6 +16,7 @@ namespace TextGenerator
 
         public PythonNetWorker(string pathToPythonDirectory, string namePythonDll)
         {
+            pathToPythonDirectory += '\\';
             Runtime.PythonDLL = Path.Combine(pathToPythonDirectory, namePythonDll);
             _pathToPythonDirectory = pathToPythonDirectory;
         }
@@ -35,6 +36,9 @@ namespace TextGenerator
 
             using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
             {
+
+                File.WriteAllText("1.txt", $" Length {textParams.Length} Temperature {textParams.Temperature} K {textParams.K}");
+
                 try
                 {
                     Logger.SaveLog("Запускаем En-генератор ...", LogType.Info);
