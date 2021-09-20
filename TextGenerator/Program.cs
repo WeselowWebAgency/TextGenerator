@@ -35,62 +35,80 @@ namespace TextGenerator
         {
             _project = project;
             Logger.Project = project;
-
-            //получаем текст для работы и помещаем его в Text
-            if (!GetTask(project.Variables["file_input"].Value)) return 1;
-
-            //проверяем язык
-            string language = project.Variables["language"].Value.ToLower();
-            if (language != "rus" && language != "eng") return 1;
-
-            //проверяем путь к питону
-            string pythonPath = ValidatePythonPath(project.Variables["PythonPath"].Value)
-                ? project.Variables["PythonPath"].Value
-                : "";
-
-            if (string.IsNullOrEmpty(pythonPath)) return 1;
-
-            PythonNetWorker pythonNet = new PythonNetWorker(pythonPath, "python37.dll");
-            Downloader worker = new Downloader(pythonPath);
-
-            //скачиваем зависимости
-            switch (_project.Variables["param_depends"].Value)
+            int executionResult = 0;
+            try
             {
-                case "startup":
-                    if (!worker.CreateDirectories() || !worker.SaveScripts()
-                        || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
-                    _project.Variables["param_depends"].Value = "no_check";
-                    break;
-                case "run":
-                    if (!worker.CreateDirectories() || !worker.SaveScripts()
-                        || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
-                    break;
-                case "no_check":
-                    break;
-                default:
-                    break;
+
+                //получаем текст для работы и помещаем его в Text
+                if (!GetTask(project.Variables["file_input"].Value)) return 1;
+
+                //проверяем язык
+                string language = project.Variables["language"].Value.ToLower();
+                if (language != "rus" && language != "eng") return 1;
+
+                //проверяем путь к питону
+                string pythonPath = ValidatePythonPath(project.Variables["PythonPath"].Value)
+                    ? project.Variables["PythonPath"].Value
+                    : "";
+
+                if (string.IsNullOrEmpty(pythonPath)) return 1;
+
+                PythonNetWorker pythonNet = new PythonNetWorker(pythonPath, "python37.dll");
+                Downloader worker = new Downloader(pythonPath);
+
+                //скачиваем зависимости
+                switch (_project.Variables["param_depends"].Value)
+                {
+                    case "startup":
+                        if (!worker.CreateDirectories() || !worker.SaveScripts()
+                            || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
+                        _project.Variables["param_depends"].Value = "no_check";
+                        break;
+                    case "run":
+                        if (!worker.CreateDirectories() || !worker.SaveScripts()
+                            || !worker.DownloadPackages() || !worker.DownloadModels()) return 1;
+                        break;
+                    case "no_check":
+                        break;
+                    default:
+                        break;
+                }
+
+
+                var par = SetParams(project);
+
+                string rez = "";
+                switch (language)
+                {
+                    case "rus":
+                        rez = pythonNet.GenerateRusText(Text, par);
+                        break;
+
+                    case "eng":
+                        rez = pythonNet.GenerateEngText(Text, par);
+                        break;
+
+                    default:
+                        break;
+                }
+                executionResult = SaveResult(rez) /* & SaveToVariable("textResult", rez) */
+                    ? 0     //все удачно
+                    : 1;
             }
-
-
-            var par = SetParams(project);
-
-            string rez = "";
-            switch (language)
+            catch (Exception e)
             {
-                case "rus":
-                    rez = pythonNet.GenerateRusText(Text, par);
-                    break;
-
-                case "eng":
-                    rez = pythonNet.GenerateEngText(Text, par);
-                    break;
-
-                default:
-                    break;
+                Logger.SaveLog(e.ToString(), LogType.Error);
+                executionResult = 1;
+                if (_project.Variables.Keys.Contains("errorText"))
+                {
+                    _project.Variables["errorText"].Value = e.Message;
+                }
+                else
+                {
+                    Logger.SaveLog("В проекте не создана переменная errorText, в которую можно записать текст ошибки", LogType.Error);
+                }
+                
             }
-            var executionResult = SaveResult(rez) /* & SaveToVariable("textResult", rez) */
-                ? 0     //все удачно
-                : 1;
 
             return executionResult;
         }
